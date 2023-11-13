@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import {Component, Injectable, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {RouterOutlet} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +9,23 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+
+@Injectable()
+export class AppComponent implements OnInit { // implements OnInit
   title = 'tic-tac-toe';
+  userSigns = ["X", "O"]
+  current = 0
+  buttonLabels: any;
+  isButtonDisabled: any;
+
+  public ngOnInit(): void {
+    this.buttonLabels = []
+    this.isButtonDisabled = []
+  }
+
+  setLoading(buttonNum: number) {
+    this.buttonLabels[buttonNum] = this.userSigns[this.current];
+    this.isButtonDisabled[buttonNum] = true;
+    this.current = (this.current + 1) % this.userSigns.length
+  }
 }
