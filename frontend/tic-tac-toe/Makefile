@@ -1,0 +1,2 @@
+serve:
+	ng serve --open
