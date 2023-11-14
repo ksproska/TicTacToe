@@ -13,16 +13,17 @@
 ## Użyteczne linki:
 - https://aws.amazon.com/codecommit/
 - https://aws.amazon.com/pm/cognito/
-- https://www.youtube.com/watch?v=o2IM9oI6Eqk
-- https://medium.com/@abhishekranjandev/integrating-amazon-cognito-for-authentication-andauthorization-in-a-spring-boot-application-fe5fe7d78db
-- https://www.youtube.com/watch?v=GSu1g9jvFhY
 - https://aws.amazon.com/rds/
 - https://aws.amazon.com/blogs/opensource/using-a-postgresql-database-with-amazon-rds-and-springboot/
-- https://www.youtube.com/watch?v=GSu1g9jvFhY
-- https://www.youtube.com/watch?v=ua0cb2LjCW4
-- https://richygreat.medium.com/create-virtual-private-cloud-vpc-in-aws-step-4-e303f21f48e8
-- https://mydeveloperplanet.com/2021/10/12/how-to-deploy-a-spring-boot-app-on-aws-fargate/
 - https://aws.amazon.com/blogs/containers/optimize-your-spring-boot-application-for-aws-fargate/
-- https://www.youtube.com/watch?v=_vOInY6SRVE
-- https://jrakibi.medium.com/deploy-your-application-with-ec2-docker-spring-boot-using-aws-clicb9f81260d29
 - https://aws.amazon.com/blogs/containers/deploy-applications-on-amazon-ecs-using-docker-compose/
+- https://medium.com/@abhishekranjandev/integrating-amazon-cognito-for-authentication-andauthorization-in-a-spring-boot-application-fe5fe7d78db
+- https://mydeveloperplanet.com/2021/10/12/how-to-deploy-a-spring-boot-app-on-aws-fargate/
+- https://richygreat.medium.com/create-virtual-private-cloud-vpc-in-aws-step-4-e303f21f48e8
+- https://jrakibi.medium.com/deploy-your-application-with-ec2-docker-spring-boot-using-aws-clicb9f81260d29
+
+## YouTube
+- [How to integrate Java Spring Boot application with AWS Cognito using OIDC?](https://www.youtube.com/watch?v=o2IM9oI6Eqk)
+- [AWS RDS with Spring Boot - A Step-By-Step Guide @ashokit](https://www.youtube.com/watch?v=GSu1g9jvFhY)
+- [Deploy Spring boot application to AWS Cloud](https://www.youtube.com/watch?v=ua0cb2LjCW4)
+- [How to Easily Deploy a Spring Boot Application to AWS EC2](https://www.youtube.com/watch?v=_vOInY6SRVE)
