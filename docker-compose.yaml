@@ -1,0 +1,7 @@
+version: "3"
+services:
+  web:
+    container_name: frontend
+    hostname: frontend
+    build: frontend
+    network_mode: "host"
