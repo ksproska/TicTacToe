@@ -1,0 +1,16 @@
+package com.tictactoe.tictactoe;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+public class UserController {
+    @GetMapping("/list-users")
+    @ResponseBody
+    public List<User> listUsers() {
+        return List.of(new User[]{new User("Kamila", "pass")});
+    }
+}
