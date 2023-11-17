@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-home',
@@ -9,7 +10,10 @@ import { CommonModule } from '@angular/common';
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit { // implements OnInit
-  title = 'tic-tac-toe';
+  readonly activeUserNicks: string[];
+  constructor(private readonly activatedRoute: ActivatedRoute) {
+    this.activeUserNicks = this.activatedRoute.snapshot.data['activeUserNicks'];
+  }
   userSigns = ["X", "O"]
   current = 0
   buttonLabels: any;
