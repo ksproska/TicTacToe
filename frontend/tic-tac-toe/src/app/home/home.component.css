@@ -1,0 +1,11 @@
+.tic-tac-toe {
+  height: 100px;
+  width: 100px;
+  font-size: larger;
+}
+.center {
+  margin: auto;
+}
+.winner {
+  background: lightgreen;
+}
