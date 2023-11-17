@@ -1,19 +1,31 @@
 package com.tictactoe.tictactoe;
 
-public class User {
-    private final String username;
-    private final String password;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.antlr.v4.runtime.misc.NotNull;
 
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "users")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public abstract class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(nullable = false, name = "user_id")
+    private Long id;
 
-    public String getUsername() {
-        return username;
-    }
+    @NotNull
+    @Column(unique = true)
+    private String username;
 
-    public String getPassword() {
-        return password;
-    }
+    @NotNull
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String password;
 }
