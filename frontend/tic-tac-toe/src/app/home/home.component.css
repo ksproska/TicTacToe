@@ -9,3 +9,6 @@
 .winner {
   background: lightgreen;
 }
+.active-users {
+  text-align: center;
+}

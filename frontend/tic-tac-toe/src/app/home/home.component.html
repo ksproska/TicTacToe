@@ -33,7 +33,8 @@
     </td>
   </tr>
 </table>
-
-<li *ngFor="let activeUserNick of activeUserNicks">
-  <p>{{activeUserNick}}</p>
-</li>
+<hr>
+<article class="active-users">
+  <h2>Active users</h2>
+  <ul *ngFor="let nick of activeUserNicks">{{nick}}</ul>
+</article>
