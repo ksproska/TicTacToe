@@ -7,6 +7,8 @@ services:
       context: backend
       dockerfile: Dockerfile
       target: "backend"
+    networks:
+      - priv-network
     ports:
       - "8080:8080"
 
@@ -14,4 +16,11 @@ services:
     container_name: frontend
     hostname: frontend
     build: frontend
-    network_mode: "host"
+    networks:
+      - priv-network
+    ports:
+      - "4200:4200"
+
+networks:
+  priv-network:
+    driver: bridge
