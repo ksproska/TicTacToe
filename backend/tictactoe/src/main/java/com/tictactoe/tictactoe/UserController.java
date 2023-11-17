@@ -12,7 +12,7 @@ public class UserController {
     @GetMapping("/list-users")
     @ResponseBody
     public List<User> listUsers() {
-        return List.of(new User[]{new User("Kamila", "pass")});
+        return List.of(new User("Kamila", "pass"));
     }
     @GetMapping("/list-active-user-nicks")
     @CrossOrigin(origins = "http://localhost:4200")
