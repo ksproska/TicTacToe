@@ -1,4 +1,10 @@
 # TicTacToe
+## Starting backend and frontend
+```bash
+docker compose up -d --build
+```
+--------
+## Założenia zadania
 1. ~~Stwórz aplikację webową do gry w kółko i krzyżyk (3x3)~~, aplikacja powinna umożliwiać:
    1. Autentykację z wykorzystaniem AWS Cognito. 
    2. Grę z losowym przeciwnikiem 

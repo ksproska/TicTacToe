@@ -1,6 +1,16 @@
-version: "3"
+version: "3.4"
 services:
-  web:
+  backend:
+    container_name: backend
+    hostname: backend
+    build:
+      context: backend
+      dockerfile: Dockerfile
+      target: "backend"
+    ports:
+      - "8080:8080"
+
+  frontend:
     container_name: frontend
     hostname: frontend
     build: frontend
