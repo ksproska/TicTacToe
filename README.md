@@ -10,7 +10,7 @@ docker compose up -d --build
    2. Grę z losowym przeciwnikiem 
    3. Podejrzenie globalnej listy graczy wraz z ich wynikami 
    4. Aplikacja powinna być zintegrowana z relacyjną bazą danych (Amazon RDS)
-2. Utwórz plik Dockerfile dla frontendu i backendu.
+2. ~~Utwórz plik Dockerfile dla frontendu i backendu.~~
 3. Utwórz plik docker-compose.yml dla konfiguracji całego środowiska.
 4. Skonfiguruj VPC (Virtual Private Cloud) i ustal reguły bezpieczeństwa.
 5. Wdróż aplikację za pomocą EC2 lub AWS Fargate.
