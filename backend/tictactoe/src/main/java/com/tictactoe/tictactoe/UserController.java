@@ -28,16 +28,6 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @GetMapping("/list-users-scores")
-    @ResponseBody
-    public List<User.UserScore> listUsersScores() {
-        return userService
-                .getAllUsers()
-                .stream()
-                .map(User::getUserScore)
-                .toList();
-    }
-
     @GetMapping("/list-active-user-nicks")
     @ResponseBody
     public List<String> listActiveUserNicks() {

@@ -16,3 +16,10 @@ populate-db:
 	curl -d '{"username":"kamila", "password": "pass"}' -H "Content-Type: application/json" -X PUT http://localhost:8080/create-user
 	curl -d '{"username":"szymon", "password": "pass"}' -H "Content-Type: application/json" -X PUT http://localhost:8080/create-user
 	curl -d '{"username":"agnieszka", "password": "pass"}' -H "Content-Type: application/json" -X PUT http://localhost:8080/create-user
+
+populate-db-games:
+	curl -d '{"player1": {"id": 1}, "player2": {"id": 2}, "winner": {"id": 1}}' -H "Content-Type: application/json" -X PUT http://localhost:8080/create-game
+	curl -d '{"player1": {"id": 1}, "player2": {"id": 2}, "winner": {"id": 1}}' -H "Content-Type: application/json" -X PUT http://localhost:8080/create-game
+	curl -d '{"player1": {"id": 1}, "player2": {"id": 2}, "winner": {"id": 2}}' -H "Content-Type: application/json" -X PUT http://localhost:8080/create-game
+	curl -d '{"player1": {"id": 1}, "player2": {"id": 2}, "winner": {"id": 2}}' -H "Content-Type: application/json" -X PUT http://localhost:8080/create-game
+	curl -d '{"player1": {"id": 2}, "player2": {"id": 3}, "winner": {"id": 2}}' -H "Content-Type: application/json" -X PUT http://localhost:8080/create-game
