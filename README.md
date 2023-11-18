@@ -12,7 +12,7 @@ Main page is available under [http://localhost:4200/home](http://localhost:4200/
 
 Stopping all services:
 ```bash
-docker dompose down
+docker compose down
 ```
 
 --------
