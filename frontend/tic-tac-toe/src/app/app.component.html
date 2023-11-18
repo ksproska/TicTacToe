@@ -3,5 +3,10 @@
   {{title}}
   <img src="logo.png" width="25" height="25" alt="logo">
 </h1>
+<h4 class="page-header">
+  <a [routerLink]="['/home']">HOME</a> |
+  <a [routerLink]="['/scores']">Scores</a> |
+  <a [routerLink]="['/login']">Login</a>
+</h4>
 <hr>
 <router-outlet></router-outlet>

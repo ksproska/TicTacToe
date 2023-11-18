@@ -1,8 +1,20 @@
 # TicTacToe
 ## Starting backend and frontend
+Starting all services in [docker-compose.yaml](docker-compose.yaml).
 ```bash
 docker compose up -d --build
 ```
+Populating database:
+```bash
+make populate-db
+```
+Main page is available under [http://localhost:4200/home](http://localhost:4200/home).
+
+Stopping all services:
+```bash
+docker dompose down
+```
+
 --------
 ## Założenia zadania
 1. ~~Stwórz aplikację webową do gry w kółko i krzyżyk (3x3)~~, aplikacja powinna umożliwiać:

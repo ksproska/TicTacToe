@@ -11,3 +11,8 @@ npm-install:
 
 create-new:
 	ng new tic-tac-toe
+
+populate-db:
+	curl -d '{"username":"kamila", "password": "pass"}' -H "Content-Type: application/json" -X PUT http://localhost:8080/create-user
+	curl -d '{"username":"szymon", "password": "pass"}' -H "Content-Type: application/json" -X PUT http://localhost:8080/create-user
+	curl -d '{"username":"agnieszka", "password": "pass"}' -H "Content-Type: application/json" -X PUT http://localhost:8080/create-user
