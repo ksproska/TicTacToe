@@ -28,4 +28,10 @@ public class User {
     @NotNull
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
+
+    protected record UserScore(String username, int score){}
+
+    public UserScore getUserScore() {
+        return new UserScore(this.username, 0);
+    }
 }

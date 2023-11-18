@@ -1,0 +1,13 @@
+table, th, td {
+  border: 1px solid;
+  border-collapse: collapse;
+}
+
+.user-scores {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table {
+  width: 20%;
+}

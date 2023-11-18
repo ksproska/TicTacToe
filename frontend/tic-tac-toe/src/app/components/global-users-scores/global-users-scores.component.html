@@ -1,0 +1,12 @@
+<article >
+  <table class="user-scores">
+    <tr>
+      <th>Username</th>
+      <th>Score</th>
+    </tr>
+    <tr *ngFor="let user of userScores">
+      <td>{{user.username}}</td>
+      <td>{{user.score}}</td>
+    </tr>
+  </table>
+</article>

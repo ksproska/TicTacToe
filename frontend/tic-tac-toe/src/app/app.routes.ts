@@ -2,9 +2,15 @@ import { Routes } from '@angular/router';
 import {HomeComponent} from "./components/home/home.component";
 import {LoginComponent} from "./components/login/login.component";
 import {ActiveUserNicksResolver} from "./resolvers/active-user-nicks.resolver";
+import {GlobalUsersScoresComponent} from "./components/global-users-scores/global-users-scores.component";
+import {UsersScoresResolver} from "./resolvers/users-scores.resolver";
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full'},
+  {
+    path: '',
+    redirectTo: '/home',
+    pathMatch: 'full'
+  },
   {
     path: "home",
     component: HomeComponent,
@@ -12,5 +18,15 @@ export const routes: Routes = [
       activeUserNicks: ActiveUserNicksResolver
     }
   },
-  { path: "login", component: LoginComponent }
+  {
+    path: "login",
+    component: LoginComponent
+  },
+  {
+    path: "scores",
+    component: GlobalUsersScoresComponent,
+    resolve: {
+      usersScores: UsersScoresResolver
+    }
+  }
 ];

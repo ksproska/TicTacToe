@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {UserScores} from "../models/user-scores";
 
 @Injectable({
   providedIn: 'root'
@@ -10,5 +11,9 @@ export class UserService {
   }
   getAllActiveUsers(): Observable<string[]> {
     return this.http.get<string[]>("list-active-user-nicks");
+  }
+
+  getAllUsersScores(): Observable<UserScores[]> {
+    return this.http.get<UserScores[]>("list-users-scores");
   }
 }

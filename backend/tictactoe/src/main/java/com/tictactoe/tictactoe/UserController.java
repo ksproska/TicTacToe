@@ -11,7 +11,7 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200,http://0.0.0.0:4200")
 @RestController
 public class UserController {
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
@@ -26,6 +26,16 @@ public class UserController {
     @ResponseBody
     public List<User> listUsers() {
         return userService.getAllUsers();
+    }
+
+    @GetMapping("/list-users-scores")
+    @ResponseBody
+    public List<User.UserScore> listUsersScores() {
+        return userService
+                .getAllUsers()
+                .stream()
+                .map(User::getUserScore)
+                .toList();
     }
 
     @GetMapping("/list-active-user-nicks")
