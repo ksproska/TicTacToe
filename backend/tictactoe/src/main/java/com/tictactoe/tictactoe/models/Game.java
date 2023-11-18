@@ -1,4 +1,4 @@
-package com.tictactoe.tictactoe;
+package com.tictactoe.tictactoe.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

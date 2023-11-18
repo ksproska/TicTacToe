@@ -1,5 +1,8 @@
-package com.tictactoe.tictactoe;
+package com.tictactoe.tictactoe.controllers;
 
+import com.tictactoe.tictactoe.models.Game;
+import com.tictactoe.tictactoe.services.GameService;
+import com.tictactoe.tictactoe.models.UserScore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
