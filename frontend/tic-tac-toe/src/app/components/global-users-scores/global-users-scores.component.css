@@ -11,3 +11,4 @@ table, th, td {
 table {
   width: 20%;
 }
+table td:nth-child(2) { text-align: end; }
