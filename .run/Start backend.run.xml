@@ -1,5 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Start backend" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <option name="ACTIVE_PROFILES" value="dev" />
     <module name="tictactoe" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="com.tictactoe.tictactoe.TicTacToeApplication" />
     <method v="2">
