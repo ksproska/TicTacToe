@@ -11,12 +11,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "games")
+@Table(name = "game_scores")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Game {
+public class GameScore {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false, name = "game_id")
+    @Column(nullable = false, name = "game_score_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)

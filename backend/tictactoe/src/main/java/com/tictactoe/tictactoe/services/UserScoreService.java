@@ -1,9 +1,9 @@
 package com.tictactoe.tictactoe.services;
 
-import com.tictactoe.tictactoe.models.Game;
+import com.tictactoe.tictactoe.models.GameScore;
 import com.tictactoe.tictactoe.models.User;
 import com.tictactoe.tictactoe.models.UserScore;
-import com.tictactoe.tictactoe.repositories.GameRepository;
+import com.tictactoe.tictactoe.repositories.GameScoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,18 +14,18 @@ import java.util.Objects;
 
 @Service
 public class UserScoreService {
-    private final GameRepository gameRepository;
+    private final GameScoreRepository gameScoreRepository;
 
     @Autowired
-    public UserScoreService(GameRepository gameRepository) {
-        this.gameRepository = gameRepository;
+    public UserScoreService(GameScoreRepository gameScoreRepository) {
+        this.gameScoreRepository = gameScoreRepository;
     }
 
     public List<UserScore> listUsersScores() {
-        return gameRepository
+        return gameScoreRepository
                 .findAll()
                 .stream()
-                .map(Game::getWinner)
+                .map(GameScore::getWinner)
                 .filter(Objects::nonNull)
                 .map(User::getUsername)
                 .reduce(new HashMap<String, Integer>(), (hashMap, e) -> {

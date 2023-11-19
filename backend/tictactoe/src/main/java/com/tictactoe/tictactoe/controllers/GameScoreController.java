@@ -1,8 +1,8 @@
 package com.tictactoe.tictactoe.controllers;
 
-import com.tictactoe.tictactoe.models.Game;
+import com.tictactoe.tictactoe.models.GameScore;
 import com.tictactoe.tictactoe.models.User;
-import com.tictactoe.tictactoe.services.GameService;
+import com.tictactoe.tictactoe.services.GameScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,23 +12,23 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:4200,http://0.0.0.0:4200")
 @RestController
-public class GameController {
-    private final GameService gameService;
+public class GameScoreController {
+    private final GameScoreService gameScoreService;
 
     @Autowired
-    public GameController(GameService gameService) {
-        this.gameService = gameService;
+    public GameScoreController(GameScoreService gameScoreService) {
+        this.gameScoreService = gameScoreService;
     }
 
-    @GetMapping("/list-games")
+    @GetMapping("/list-game-scores")
     @ResponseBody
-    public List<Game> listGames() {
-        return gameService.getAllGames();
+    public List<GameScore> listGameScores() {
+        return gameScoreService.getAllGameScores();
     }
 
-    @PutMapping("/create-game")
-    public ResponseEntity<String> createGame(@RequestBody Game game) {
-        var createdGame = gameService.saveGame(game);
+    @PutMapping("/create-game-score")
+    public ResponseEntity<String> createGameScore(@RequestBody GameScore gameScore) {
+        var createdGame = gameScoreService.saveGameScore(gameScore);
         var winner =
                 Optional.ofNullable(createdGame.getWinner())
                         .map(User::getId)
