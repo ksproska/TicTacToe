@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {ActivatedRoute} from "@angular/router";
+import {GameInfo} from "../../models/game-info";
 
 @Component({
   selector: 'app-game',
@@ -14,11 +16,25 @@ export class GameComponent implements OnInit {
   buttonLabels: any;
   isButtonDisabled: any;
   classTypes: any;
+  gameInfo: GameInfo;
+
+  constructor(private readonly activatedRoute: ActivatedRoute) {
+    this.gameInfo = this.activatedRoute.snapshot.data['gameInfo'];
+  }
 
   public ngOnInit(): void {
     this.buttonLabels = [];
     this.isButtonDisabled = [];
     this.classTypes = [];
+    for (let i = 0; i < this.gameInfo.gameSlots.length; i++) {
+      if (this.gameInfo.gameSlots[i] == "NONE") {
+        this.buttonLabels[i] = ""
+        this.isButtonDisabled[i] = false
+      } else {
+        this.buttonLabels[i] = this.gameInfo.gameSlots[i]
+        this.isButtonDisabled[i] = true
+      }
+    }
   }
 
   setLoading(buttonNum: number) {

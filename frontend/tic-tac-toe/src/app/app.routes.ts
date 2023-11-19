@@ -5,6 +5,7 @@ import {ActiveUserNicksResolver} from "./resolvers/active-user-nicks.resolver";
 import {GlobalUsersScoresComponent} from "./components/global-users-scores/global-users-scores.component";
 import {UsersScoresResolver} from "./resolvers/users-scores.resolver";
 import {GameComponent} from "./components/game/game.component";
+import {GameResolver} from "./resolvers/gameResolver";
 
 export const routes: Routes = [
   {
@@ -21,7 +22,10 @@ export const routes: Routes = [
   },
   {
     path: "game",
-    component: GameComponent
+    component: GameComponent,
+    resolve: {
+      gameInfo: GameResolver
+    }
   },
   {
     path: "login",

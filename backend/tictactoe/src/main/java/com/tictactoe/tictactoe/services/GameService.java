@@ -20,10 +20,10 @@ public class GameService {
         this.userRepository = userRepository;
     }
 
-    public Game getGame(User player) {
-        Optional<User> user = userRepository.findById(player.getId());
+    public Game getGame(Long playerId) {
+        Optional<User> user = userRepository.findById(playerId);
         if(user.isEmpty()) {
-            throw new IllegalStateException("Could not find user with id " + player.getId());
+            throw new IllegalStateException("Could not find user with id " + playerId);
         }
         Optional<Game> gameOptional = gameRepository.findFirstByPlayer2IsNull();
         if (gameOptional.isPresent()) {
