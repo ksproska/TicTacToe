@@ -28,15 +28,15 @@ public class GameScoreController {
 
     @PutMapping("/create-game-score")
     public ResponseEntity<String> createGameScore(@RequestBody GameScore gameScore) {
-        var createdGame = gameScoreService.saveGameScore(gameScore);
+        var createdGameScore = gameScoreService.saveGameScore(gameScore);
         var winner =
-                Optional.ofNullable(createdGame.getWinner())
+                Optional.ofNullable(createdGameScore.getWinner())
                         .map(User::getId)
                         .map(Object::toString)
                         .orElse("");
         return ResponseEntity.ok().body(
-                "Created game for '" + createdGame.getPlayer1().getId() + "' vs '" +
-                        createdGame.getPlayer2().getId() +
+                "Created game for '" + createdGameScore.getPlayer1().getId() + "' vs '" +
+                        createdGameScore.getPlayer2().getId() +
                 "' : winner :'" + winner + "'");
     }
 }
