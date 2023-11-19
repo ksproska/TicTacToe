@@ -1,8 +1,9 @@
-<form class="login-data" (ngSubmit)="onLogin()">
+<form class="login-data" (submit)="onLogin()">
   <p>Login</p>
-  <input type="text" name="username" placeholder="Username" required>
+  <input type="text" name="username" placeholder="Username" [(ngModel)]="username" required>
   <br><br>
-  <input type="password" name="password" placeholder="Password" required>
+  <input type="password" name="password" placeholder="Password" [(ngModel)]="password" required>
   <br><br>
-  <input type="submit" value="Login">
+  <button type="submit" >Login</button>
 </form>
+<p class="login-data">{{errorMessage}}</p>

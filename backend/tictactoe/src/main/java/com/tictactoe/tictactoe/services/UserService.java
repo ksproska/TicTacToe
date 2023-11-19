@@ -1,5 +1,7 @@
 package com.tictactoe.tictactoe.services;
 
+import com.tictactoe.tictactoe.models.AuthRequest;
+import com.tictactoe.tictactoe.models.AuthResponse;
 import com.tictactoe.tictactoe.models.User;
 import com.tictactoe.tictactoe.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +24,15 @@ public class UserService {
 
     public User saveUser(User user) {
         return this.userRepository.save(user);
+    }
+
+    public AuthResponse authenticate(AuthRequest request) {
+        var userDetails = userRepository
+                .findByUsername(request.username())
+                .orElseThrow(() -> new IllegalArgumentException("No user of name '" + request.username() + "' found."));
+        if(!userDetails.getPassword().equals(request.password())) {
+            throw new IllegalStateException("Incorrect password.");
+        }
+        return new AuthResponse(userDetails.getId());
     }
 }
