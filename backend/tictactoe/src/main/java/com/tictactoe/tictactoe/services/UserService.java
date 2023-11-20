@@ -1,14 +1,12 @@
 package com.tictactoe.tictactoe.services;
 
-import com.tictactoe.tictactoe.models.AuthRequest;
-import com.tictactoe.tictactoe.models.AuthResponse;
-import com.tictactoe.tictactoe.models.User;
-import com.tictactoe.tictactoe.models.UserCreateRequest;
+import com.tictactoe.tictactoe.models.*;
 import com.tictactoe.tictactoe.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -39,5 +37,10 @@ public class UserService {
             throw new IllegalStateException("Incorrect password.");
         }
         return new AuthResponse(userDetails.getId());
+    }
+
+    public boolean verify(VerificationRequest verificationRequest) {
+        Optional<User> user = userRepository.findByUsername(verificationRequest.username());
+        return user.isPresent() && user.get().getId().equals(verificationRequest.userId());
     }
 }

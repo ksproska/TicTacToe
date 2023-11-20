@@ -3,6 +3,7 @@ package com.tictactoe.tictactoe.controllers;
 import com.tictactoe.tictactoe.models.AuthRequest;
 import com.tictactoe.tictactoe.models.AuthResponse;
 import com.tictactoe.tictactoe.models.UserCreateRequest;
+import com.tictactoe.tictactoe.models.VerificationRequest;
 import com.tictactoe.tictactoe.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,5 +41,9 @@ public class AuthController {
             LOG.error(e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+    @PostMapping("/verify")
+    public ResponseEntity<Boolean> verify(@RequestBody VerificationRequest verificationRequest) {
+        return ResponseEntity.ok(userService.verify(verificationRequest));
     }
 }
