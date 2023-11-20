@@ -3,6 +3,7 @@ package com.tictactoe.tictactoe.services;
 import com.tictactoe.tictactoe.models.AuthRequest;
 import com.tictactoe.tictactoe.models.AuthResponse;
 import com.tictactoe.tictactoe.models.User;
+import com.tictactoe.tictactoe.models.UserCreateRequest;
 import com.tictactoe.tictactoe.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,12 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User saveUser(User user) {
-        return this.userRepository.save(user);
+    public User saveUser(UserCreateRequest userCreateRequest) {
+        var userWithSameUsername = userRepository.findByUsername(userCreateRequest.username());
+        if (userWithSameUsername.isPresent()) {
+            throw new IllegalArgumentException("User with username " + userCreateRequest.username() + " already exists");
+        }
+        return this.userRepository.save(new User(userCreateRequest.username(), userCreateRequest.password()));
     }
 
     public AuthResponse authenticate(AuthRequest request) {

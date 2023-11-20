@@ -1,0 +1,9 @@
+<form class="login-data" (submit)="onSignup()">
+  <p>Signup</p>
+  <input type="text" name="username" placeholder="Username" [(ngModel)]="username" required>
+  <br><br>
+  <input type="password" name="password" placeholder="Password" [(ngModel)]="password" required>
+  <br><br>
+  <button type="submit" >Signup</button>
+</form>
+<p class="login-data">{{errorMessage}}</p>

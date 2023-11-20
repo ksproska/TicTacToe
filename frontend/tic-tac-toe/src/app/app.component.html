@@ -8,7 +8,8 @@
   <a [routerLink]="['/scores']">Scores</a> |
   <a *ngIf="username != null" [routerLink]="['/game']">Game</a> |
   <button *ngIf="username != null" (click)="logOut()">Logout</button>
-  <a *ngIf="username == null" [routerLink]="['/login']">Login</a>
+  <a *ngIf="username == null" [routerLink]="['/login']">Login</a> |
+  <a *ngIf="username == null" [routerLink]="['/signup']">Signup</a>
 </h4>
 <h4 *ngIf="username != null" class="page-header">
   Logged in user: {{username}}

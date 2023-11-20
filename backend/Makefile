@@ -9,8 +9,8 @@ run-db-container:
 	-p 3306:3306 \
 	mysql
 
-create-user:
-	curl -d '{"username":"kamila", "password": "pass"}' -H "Content-Type: application/json" -X PUT http://localhost:8080/create-user
+signup:
+	curl -d '{"username":"kamila", "password": "pass"}' -H "Content-Type: application/json" -X PUT http://localhost:8080/signup
 
 see-users:
 	curl http://localhost:8080/list-users

@@ -6,6 +6,7 @@ import {GlobalUsersScoresComponent} from "./components/global-users-scores/globa
 import {UsersScoresResolver} from "./resolvers/users-scores.resolver";
 import {GameComponent} from "./components/game/game.component";
 import {GameResolver} from "./resolvers/gameResolver";
+import {SignupComponent} from "./components/signup/signup.component";
 
 export const routes: Routes = [
   {
@@ -30,6 +31,10 @@ export const routes: Routes = [
   {
     path: "login",
     component: LoginComponent
+  },
+  {
+    path: "signup",
+    component: SignupComponent
   },
   {
     path: "scores",
