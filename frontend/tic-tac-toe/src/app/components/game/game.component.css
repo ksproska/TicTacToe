@@ -9,3 +9,9 @@
 .winner {
   background: lightgreen;
 }
+.loser {
+  background: lightcoral;
+}
+.center-text {
+  text-align: center;
+}

@@ -63,4 +63,27 @@ public class Game {
         }
         return new GameInfo(this.id, this.gameSlots, startsFirst, sign);
     }
+
+    public MoveInfo move(MoveRequest moveRequest) {
+        Long playerId = moveRequest.playerId();
+        int index = moveRequest.index();
+        if (!this.playerTurn.getId().equals(playerId)) {
+            throw new IllegalStateException("it is not this player turn");
+        }
+        if (index >= this.gameSlots.size() || index < 0) {
+            throw new IllegalStateException("incorrect index " + index);
+        }
+        if (this.gameSlots.get(index) != NONE) {
+            throw new IllegalStateException("index already filled");
+        }
+        if(this.player1.equals(this.playerTurn)) {
+            gameSlots.set(index, X);
+            this.playerTurn = this.player2;
+        }
+        else {
+            gameSlots.set(index, O);
+            this.playerTurn = this.player1;
+        }
+        return new MoveInfo(index, gameSlots.get(index), this.playerTurn.getId());
+    }
 }

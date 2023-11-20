@@ -5,8 +5,8 @@
 </h1>
 <h4 class="page-header">
   <a [routerLink]="['/home']">HOME</a> |
+  <a [routerLink]="['/scores']">Scores</a> |
   <a *ngIf="username != null" [routerLink]="['/game']">Game</a> |
-  <a *ngIf="username != null" [routerLink]="['/scores']">Scores</a> |
   <button *ngIf="username != null" (click)="logOut()">Logout</button>
   <a *ngIf="username == null" [routerLink]="['/login']">Login</a>
 </h4>

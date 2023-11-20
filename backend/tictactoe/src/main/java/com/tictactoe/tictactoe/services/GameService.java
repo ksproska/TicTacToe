@@ -35,4 +35,12 @@ public class GameService {
         var newGame = new Game(user.get());
         return gameRepository.save(newGame);
     }
+
+    public Game getGameById(Long gameId) {
+        return gameRepository.getReferenceById(gameId);
+    }
+
+    public void update(Game game) {
+        this.gameRepository.save(game);
+    }
 }

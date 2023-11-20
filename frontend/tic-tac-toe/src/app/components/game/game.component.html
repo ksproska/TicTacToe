@@ -1,39 +1,37 @@
+<h3 class="center-text">Game id: {{gameInfo.gameId}}</h3>
+<h3 class="center-text">Player sign: {{gameInfo.sign}}</h3>
 <table class="center">
   <tr>
     <td>
-      <button class="tic-tac-toe" [class]="classTypes[0]" type="button" [disabled]="isButtonDisabled[0]"  (click)="setLoading(0)">{{buttonLabels[0]}}</button>
+      <button class="tic-tac-toe" [class]="classTypes[0]" type="button" [disabled]="isButtonDisabled[0]"  (click)="clickBtn(0)">{{buttonLabels[0]}}</button>
     </td>
     <td>
-      <button class="tic-tac-toe" [class]="classTypes[1]" type="button" [disabled]="isButtonDisabled[1]"  (click)="setLoading(1)">{{buttonLabels[1]}}</button>
+      <button class="tic-tac-toe" [class]="classTypes[1]" type="button" [disabled]="isButtonDisabled[1]"  (click)="clickBtn(1)">{{buttonLabels[1]}}</button>
     </td>
     <td>
-      <button class="tic-tac-toe" [class]="classTypes[2]" type="button" [disabled]="isButtonDisabled[2]"  (click)="setLoading(2)">{{buttonLabels[2]}}</button>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <button class="tic-tac-toe" [class]="classTypes[3]" type="button" [disabled]="isButtonDisabled[3]"  (click)="setLoading(3)">{{buttonLabels[3]}}</button>
-    </td>
-    <td>
-      <button class="tic-tac-toe" [class]="classTypes[4]" type="button" [disabled]="isButtonDisabled[4]"  (click)="setLoading(4)">{{buttonLabels[4]}}</button>
-    </td>
-    <td>
-      <button class="tic-tac-toe" [class]="classTypes[5]" type="button" [disabled]="isButtonDisabled[5]"  (click)="setLoading(5)">{{buttonLabels[5]}}</button>
+      <button class="tic-tac-toe" [class]="classTypes[2]" type="button" [disabled]="isButtonDisabled[2]"  (click)="clickBtn(2)">{{buttonLabels[2]}}</button>
     </td>
   </tr>
   <tr>
     <td>
-      <button class="tic-tac-toe" [class]="classTypes[6]" type="button" [disabled]="isButtonDisabled[6]"  (click)="setLoading(6)">{{buttonLabels[6]}}</button>
+      <button class="tic-tac-toe" [class]="classTypes[3]" type="button" [disabled]="isButtonDisabled[3]"  (click)="clickBtn(3)">{{buttonLabels[3]}}</button>
     </td>
     <td>
-      <button class="tic-tac-toe" [class]="classTypes[7]" type="button" [disabled]="isButtonDisabled[7]"  (click)="setLoading(7)">{{buttonLabels[7]}}</button>
+      <button class="tic-tac-toe" [class]="classTypes[4]" type="button" [disabled]="isButtonDisabled[4]"  (click)="clickBtn(4)">{{buttonLabels[4]}}</button>
     </td>
     <td>
-      <button class="tic-tac-toe" [class]="classTypes[8]" type="button" [disabled]="isButtonDisabled[8]"  (click)="setLoading(8)">{{buttonLabels[8]}}</button>
+      <button class="tic-tac-toe" [class]="classTypes[5]" type="button" [disabled]="isButtonDisabled[5]"  (click)="clickBtn(5)">{{buttonLabels[5]}}</button>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <button class="tic-tac-toe" [class]="classTypes[6]" type="button" [disabled]="isButtonDisabled[6]"  (click)="clickBtn(6)">{{buttonLabels[6]}}</button>
+    </td>
+    <td>
+      <button class="tic-tac-toe" [class]="classTypes[7]" type="button" [disabled]="isButtonDisabled[7]"  (click)="clickBtn(7)">{{buttonLabels[7]}}</button>
+    </td>
+    <td>
+      <button class="tic-tac-toe" [class]="classTypes[8]" type="button" [disabled]="isButtonDisabled[8]"  (click)="clickBtn(8)">{{buttonLabels[8]}}</button>
     </td>
   </tr>
 </table>
-
-<p>{{gameInfo.gameId}}</p>
-<p>{{gameInfo.sign}}</p>
-<p>{{gameInfo.startsFirst}}</p>
