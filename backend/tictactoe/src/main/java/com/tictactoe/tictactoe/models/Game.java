@@ -126,4 +126,15 @@ public class Game {
         }
         return Optional.empty();
     }
+
+    public Optional<User> getWinnerPlayer() {
+        var winnerSlot = getWinner();
+        if (winnerSlot.isPresent() && winnerSlot.get().equals(X)) {
+            return Optional.of(this.player1);
+        }
+        if (winnerSlot.isPresent() && winnerSlot.get().equals(O)) {
+            return Optional.of(this.player2);
+        }
+        return Optional.empty();
+    }
 }

@@ -30,4 +30,10 @@ public class GameScore {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn()
     private User winner;
+
+    public GameScore(User player1, User player2, User winner) {
+        this.player1 = player1;
+        this.player2 = player2;
+        this.winner = winner;
+    }
 }
