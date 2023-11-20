@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static com.tictactoe.tictactoe.models.GameSlot.*;
 
@@ -18,6 +19,16 @@ import static com.tictactoe.tictactoe.models.GameSlot.*;
 @AllArgsConstructor
 @Table(name = "game")
 public class Game {
+    private static List<List<Integer>> finishers = List.of(
+            List.of(0, 1, 2),
+            List.of(3, 4, 5),
+            List.of(6, 7, 8),
+            List.of(0, 3, 6),
+            List.of(1, 4, 7),
+            List.of(2, 5, 8),
+            List.of(0, 4, 8),
+            List.of(6, 4, 2)
+    );
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, name = "game_id")
@@ -40,6 +51,9 @@ public class Game {
     @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
     @JoinColumn(nullable = false)
     private User playerTurn;
+
+    @Enumerated(EnumType.STRING)
+    private GameSlot winner;
 
     public Game(User player1) {
         this.gameSlots = List.of(
@@ -84,6 +98,32 @@ public class Game {
             gameSlots.set(index, O);
             this.playerTurn = this.player1;
         }
-        return new MoveInfo(index, gameSlots.get(index), this.playerTurn.getId());
+        var winnerSlot = getWinner();
+        winnerSlot.ifPresent(gameSlot -> this.winner = gameSlot);
+        return new MoveInfo(index, gameSlots.get(index), this.playerTurn.getId(), winnerSlot.isPresent());
+    }
+
+    public Optional<GameSlot> getWinner() {
+        for (var winningInxSetup : finishers) {
+            var signs = winningInxSetup
+                    .stream()
+                    .map(this.gameSlots::get)
+                    .filter(sign -> !NONE.equals(sign))
+                    .toList();
+            if (signs.size() == 3) {
+                if(signs.stream().allMatch(X::equals)) {
+                    return Optional.of(X);
+                }
+                if(signs.stream().allMatch(O::equals)) {
+                    return Optional.of(O);
+                }
+            }
+        }
+        if (this.gameSlots
+                .stream()
+                .allMatch(NONE::equals)) {
+            return Optional.of(NONE);
+        }
+        return Optional.empty();
     }
 }

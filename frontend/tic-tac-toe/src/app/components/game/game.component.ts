@@ -19,6 +19,8 @@ export class GameComponent implements OnInit {
   classTypes: any;
   gameInfo: GameInfo;
   stompClient: StompJs.Client;
+  // @ts-ignore
+  message: string;
 
   constructor(private readonly activatedRoute: ActivatedRoute) {
     this.gameInfo = this.activatedRoute.snapshot.data['gameInfo'];
@@ -54,11 +56,14 @@ export class GameComponent implements OnInit {
           else {
             this.disableAll()
           }
-          let winner = this.winningIndexes();
-          if (winner.length != 0) {
+          if(move.isGameFinished) {
             this.disableAll();
             let isWinner = move.nextPlayer != this.userId;
+            let winner = this.winningIndexes();
             this.changeClassForWiningButtons(winner, isWinner);
+            this.stompClient.disconnect(() => {
+              this.message = "GAME FINISHED!"
+            })
           }
         }
       )

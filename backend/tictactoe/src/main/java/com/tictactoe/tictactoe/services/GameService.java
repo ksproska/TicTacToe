@@ -25,7 +25,7 @@ public class GameService {
         if(user.isEmpty()) {
             throw new IllegalStateException("Could not find user with id " + playerId);
         }
-        Optional<Game> gameOptional = gameRepository.findFirstByPlayer2IsNull();
+        Optional<Game> gameOptional = gameRepository.findFirstByPlayer2IsNullAndPlayer1_IdNot(playerId);
         if (gameOptional.isPresent()) {
             var game = gameOptional.get();
             game.setPlayer2(user.get());

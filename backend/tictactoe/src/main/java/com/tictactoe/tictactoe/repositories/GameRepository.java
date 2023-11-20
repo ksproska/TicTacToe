@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface GameRepository extends JpaRepository<Game, Long> {
-    Optional<Game> findFirstByPlayer2IsNull();
+    Optional<Game> findFirstByPlayer2IsNullAndPlayer1_IdNot(Long playerId);
 }
