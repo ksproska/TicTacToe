@@ -1,6 +1,6 @@
 package com.tictactoe.tictactoe.repositories;
 
-import com.tictactoe.tictactoe.models.Game;
+import com.tictactoe.tictactoe.models.entities.Game;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

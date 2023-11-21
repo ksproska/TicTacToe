@@ -1,7 +1,7 @@
 package com.tictactoe.tictactoe.controllers;
 
 import com.tictactoe.tictactoe.models.UserLoginResponse;
-import com.tictactoe.tictactoe.models.User;
+import com.tictactoe.tictactoe.models.entities.User;
 import com.tictactoe.tictactoe.models.UserCreateRequest;
 import com.tictactoe.tictactoe.repositories.UserRepository;
 import org.junit.jupiter.api.Test;

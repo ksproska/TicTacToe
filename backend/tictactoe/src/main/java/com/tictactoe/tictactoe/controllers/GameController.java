@@ -1,7 +1,7 @@
 package com.tictactoe.tictactoe.controllers;
 
 import com.tictactoe.tictactoe.models.GameInfo;
-import com.tictactoe.tictactoe.models.User;
+import com.tictactoe.tictactoe.models.entities.User;
 import com.tictactoe.tictactoe.services.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

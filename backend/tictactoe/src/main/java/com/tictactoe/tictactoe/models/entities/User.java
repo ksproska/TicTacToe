@@ -1,4 +1,4 @@
-package com.tictactoe.tictactoe.models;
+package com.tictactoe.tictactoe.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;

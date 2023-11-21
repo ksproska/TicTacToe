@@ -1,5 +1,8 @@
-package com.tictactoe.tictactoe.models;
+package com.tictactoe.tictactoe.models.entities;
 
+import com.tictactoe.tictactoe.models.GameInfo;
+import com.tictactoe.tictactoe.models.MoveInfo;
+import com.tictactoe.tictactoe.models.MoveRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.tictactoe.tictactoe.models.GameSlot.*;
+import static com.tictactoe.tictactoe.models.entities.GameSlot.*;
 
 @Entity
 @Getter

@@ -1,7 +1,7 @@
 package com.tictactoe.tictactoe.services;
 
-import com.tictactoe.tictactoe.models.Game;
-import com.tictactoe.tictactoe.models.User;
+import com.tictactoe.tictactoe.models.entities.Game;
+import com.tictactoe.tictactoe.models.entities.User;
 import com.tictactoe.tictactoe.repositories.GameRepository;
 import com.tictactoe.tictactoe.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

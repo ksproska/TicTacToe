@@ -1,7 +1,7 @@
 package com.tictactoe.tictactoe.services;
 
-import com.tictactoe.tictactoe.models.GameScore;
-import com.tictactoe.tictactoe.models.User;
+import com.tictactoe.tictactoe.models.entities.GameScore;
+import com.tictactoe.tictactoe.models.entities.User;
 import com.tictactoe.tictactoe.models.UserScoreResponse;
 import com.tictactoe.tictactoe.repositories.GameScoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;

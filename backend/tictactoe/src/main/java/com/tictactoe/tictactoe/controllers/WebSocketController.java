@@ -1,6 +1,6 @@
 package com.tictactoe.tictactoe.controllers;
 
-import com.tictactoe.tictactoe.models.GameScore;
+import com.tictactoe.tictactoe.models.entities.GameScore;
 import com.tictactoe.tictactoe.models.MoveRequest;
 import com.tictactoe.tictactoe.services.GameScoreService;
 import com.tictactoe.tictactoe.services.GameService;
