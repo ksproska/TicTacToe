@@ -18,7 +18,7 @@ public class GameScoreService {
         this.gameScoreRepository = gameScoreRepository;
     }
 
-    public GameScore saveGameScore(GameScore gameScore) {
+    public void saveGameScore(GameScore gameScore) {
         Optional<User> winner = Optional.ofNullable(gameScore.getWinner());
         if (winner.isPresent()) {
             var playersIds = List.of(gameScore.getPlayer1().getId(), gameScore.getPlayer2().getId());
@@ -26,10 +26,6 @@ public class GameScoreService {
                 throw new IllegalStateException("Winner id " + winner.get().getId() + " is not in " + playersIds);
             }
         }
-        return gameScoreRepository.save(gameScore);
-    }
-
-    public List<GameScore> getAllGameScores() {
-        return gameScoreRepository.findAll();
+        gameScoreRepository.save(gameScore);
     }
 }

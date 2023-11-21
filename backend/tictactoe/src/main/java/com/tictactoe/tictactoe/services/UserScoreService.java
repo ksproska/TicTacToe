@@ -2,7 +2,7 @@ package com.tictactoe.tictactoe.services;
 
 import com.tictactoe.tictactoe.models.GameScore;
 import com.tictactoe.tictactoe.models.User;
-import com.tictactoe.tictactoe.models.UserScore;
+import com.tictactoe.tictactoe.models.UserScoreResponse;
 import com.tictactoe.tictactoe.repositories.GameScoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class UserScoreService {
         this.gameScoreRepository = gameScoreRepository;
     }
 
-    public List<UserScore> listUsersScores() {
+    public List<UserScoreResponse> listUsersScores() {
         return gameScoreRepository
                 .findAll()
                 .stream()
@@ -39,8 +39,8 @@ public class UserScoreService {
                 )
                 .entrySet()
                 .stream()
-                .map(x -> new UserScore(x.getKey(), x.getValue()))
-                .sorted(Comparator.comparing(UserScore::score).reversed())
+                .map(x -> new UserScoreResponse(x.getKey(), x.getValue()))
+                .sorted(Comparator.comparing(UserScoreResponse::score).reversed())
                 .toList();
     }
 }

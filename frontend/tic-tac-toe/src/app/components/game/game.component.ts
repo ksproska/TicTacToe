@@ -39,8 +39,10 @@ export class GameComponent implements OnInit {
         this.isButtonDisabled[i] = true
       }
     }
-    if(!this.gameInfo.startsFirst) {
+    if(!this.gameInfo.enableMove) {
       this.disableAll()
+    } else {
+      this.message = "It is your move!"
     }
 
     this.stompClient.connect({}, () => {
@@ -52,9 +54,11 @@ export class GameComponent implements OnInit {
           this.isButtonDisabled[move.index] = true
           if (move.nextPlayer == this.userId) {
             this.undisableEmpty()
+            this.message = "It is your move!"
           }
           else {
             this.disableAll()
+            this.message = ""
           }
           if(move.isGameFinished) {
             this.disableAll();
@@ -62,7 +66,11 @@ export class GameComponent implements OnInit {
             let winner = this.winningIndexes();
             this.changeClassForWiningButtons(winner, isWinner);
             this.stompClient.disconnect(() => {
-              this.message = "GAME FINISHED!"
+              if(isWinner) {
+                this.message = "YOU WON!"
+              } else {
+                this.message = "YOU LOST!"
+              }
             })
           }
         }

@@ -34,22 +34,21 @@ public class Game {
     @Column(nullable = false, name = "game_id")
     private Long id;
 
-//    @ElementCollection(targetElement = GameSlot.class)
     @JoinTable(name = "game_slots", joinColumns = @JoinColumn(name = "game_id"))
     @Column(name = "game_slots", nullable = false)
     @Enumerated(EnumType.STRING)
     private List<GameSlot> gameSlots;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(nullable = false)
     private User player1;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn()
     private User player2;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
-    @JoinColumn(nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn()
     private User playerTurn;
 
     @Enumerated(EnumType.STRING)
@@ -66,16 +65,14 @@ public class Game {
     }
 
     public GameInfo getGameInfo(Long playerId) {
-        boolean startsFirst;
+        boolean enableMove = Objects.equals(this.playerTurn.getId(), playerId);
         GameSlot sign;
         if (Objects.equals(this.player1.getId(), playerId)) {
-            startsFirst = true;
             sign = X;
         } else {
-            startsFirst = false;
             sign = O;
         }
-        return new GameInfo(this.id, this.gameSlots, startsFirst, sign);
+        return new GameInfo(this.id, this.gameSlots, enableMove, sign);
     }
 
     public MoveInfo move(MoveRequest moveRequest) {
@@ -90,17 +87,18 @@ public class Game {
         if (this.gameSlots.get(index) != NONE) {
             throw new IllegalStateException("index already filled");
         }
-        if(this.player1.equals(this.playerTurn)) {
+        if (this.player1.equals(this.playerTurn)) {
             gameSlots.set(index, X);
             this.playerTurn = this.player2;
-        }
-        else {
+        } else {
             gameSlots.set(index, O);
             this.playerTurn = this.player1;
         }
         var winnerSlot = getWinner();
         winnerSlot.ifPresent(gameSlot -> this.winner = gameSlot);
-        return new MoveInfo(index, gameSlots.get(index), this.playerTurn.getId(), winnerSlot.isPresent());
+        return new MoveInfo(index, gameSlots.get(index),
+                Optional.ofNullable(this.playerTurn).map(User::getId).orElse((long) -1),
+                winnerSlot.isPresent());
     }
 
     public Optional<GameSlot> getWinner() {
@@ -111,10 +109,10 @@ public class Game {
                     .filter(sign -> !NONE.equals(sign))
                     .toList();
             if (signs.size() == 3) {
-                if(signs.stream().allMatch(X::equals)) {
+                if (signs.stream().allMatch(X::equals)) {
                     return Optional.of(X);
                 }
-                if(signs.stream().allMatch(O::equals)) {
+                if (signs.stream().allMatch(O::equals)) {
                     return Optional.of(O);
                 }
             }

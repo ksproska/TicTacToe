@@ -1,6 +1,6 @@
 export interface GameInfo {
   gameId: number,
   gameSlots: string[],
-  startsFirst: boolean,
+  enableMove: boolean,
   sign: string
 }

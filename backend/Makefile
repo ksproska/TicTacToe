@@ -11,6 +11,3 @@ run-db-container:
 
 signup:
 	curl -d '{"username":"kamila", "password": "pass"}' -H "Content-Type: application/json" -X PUT http://localhost:8080/signup
-
-see-users:
-	curl http://localhost:8080/list-users

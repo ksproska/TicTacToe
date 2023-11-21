@@ -17,10 +17,6 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
-
     public User saveUser(UserCreateRequest userCreateRequest) {
         var userWithSameUsername = userRepository.findByUsername(userCreateRequest.username());
         if (userWithSameUsername.isPresent()) {
@@ -29,18 +25,18 @@ public class UserService {
         return this.userRepository.save(new User(userCreateRequest.username(), userCreateRequest.password()));
     }
 
-    public AuthResponse authenticate(AuthRequest request) {
+    public UserLoginResponse authenticate(UserLoginRequest request) {
         var userDetails = userRepository
                 .findByUsername(request.username())
                 .orElseThrow(() -> new IllegalArgumentException("No user of name '" + request.username() + "' found."));
         if(!userDetails.getPassword().equals(request.password())) {
             throw new IllegalStateException("Incorrect password.");
         }
-        return new AuthResponse(userDetails.getId());
+        return new UserLoginResponse(userDetails.getId());
     }
 
-    public boolean verify(VerificationRequest verificationRequest) {
-        Optional<User> user = userRepository.findByUsername(verificationRequest.username());
-        return user.isPresent() && user.get().getId().equals(verificationRequest.userId());
+    public boolean verify(UserVerificationRequest userVerificationRequest) {
+        Optional<User> user = userRepository.findByUsername(userVerificationRequest.username());
+        return user.isPresent() && user.get().getId().equals(userVerificationRequest.userId());
     }
 }

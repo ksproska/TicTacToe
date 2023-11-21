@@ -1,17 +1,33 @@
 .tic-tac-toe {
   height: 100px;
   width: 100px;
+  background-color: transparent;
+  border: none;
   font-size: xxx-large;
+  font-weight: bold;
 }
+
+table, th, td {
+  border-collapse: collapse;
+  border: 5px solid darkgrey;
+}
+
 .center {
   margin: auto;
 }
+
 .winner {
   background: lightgreen;
 }
+
 .loser {
   background: lightcoral;
 }
+
 .center-text {
   text-align: center;
+}
+
+input[disabled] {
+  border: none;
 }

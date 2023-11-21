@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {RouterModule, RouterOutlet} from '@angular/router';
+import {Router, RouterModule, RouterOutlet} from '@angular/router';
 import {environment} from "../environments/environment";
 import {AuthService} from "./services/auth.service";
 
@@ -19,7 +19,10 @@ import {AuthService} from "./services/auth.service";
 export class AppComponent {
   title = 'TIC-TAC-TOE';
   username: string | null
-  constructor(private readonly authService: AuthService) {
+  constructor(
+    private readonly authService: AuthService,
+    private readonly router: Router
+  ) {
     this.username = this.getUsername();
     if (this.username != null) {
       authService.verify({
@@ -28,6 +31,7 @@ export class AppComponent {
       }).subscribe((isUserOk: boolean) => {
         if(!isUserOk) {
           this.logOut()
+          router.navigate(['/home'])
         }
       })
     }

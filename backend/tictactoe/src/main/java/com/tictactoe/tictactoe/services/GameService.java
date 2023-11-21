@@ -29,6 +29,9 @@ public class GameService {
         if (gameOptional.isPresent()) {
             var game = gameOptional.get();
             game.setPlayer2(user.get());
+            if(Optional.ofNullable(game.getPlayerTurn()).isEmpty()) {
+                game.setPlayerTurn(user.get());
+            }
             gameRepository.flush();
             return game;
         }

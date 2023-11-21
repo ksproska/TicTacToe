@@ -1,6 +1,6 @@
 package com.tictactoe.tictactoe.controllers;
 
-import com.tictactoe.tictactoe.models.UserScore;
+import com.tictactoe.tictactoe.models.UserScoreResponse;
 import com.tictactoe.tictactoe.services.UserScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,7 +22,7 @@ public class UserScoreController {
 
     @GetMapping("/list-users-scores")
     @ResponseBody
-    public List<UserScore> listUsersScores() {
+    public List<UserScoreResponse> listUsersScores() {
         return userScoreService.listUsersScores();
     }
 }
