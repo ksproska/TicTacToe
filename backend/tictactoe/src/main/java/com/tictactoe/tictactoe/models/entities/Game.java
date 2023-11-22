@@ -1,7 +1,7 @@
 package com.tictactoe.tictactoe.models.entities;
 
 import com.tictactoe.tictactoe.models.GameStartSetup;
-import com.tictactoe.tictactoe.models.MoveInfo;
+import com.tictactoe.tictactoe.models.ValidatedMoveResponse;
 import com.tictactoe.tictactoe.models.MoveRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -78,18 +78,9 @@ public class Game {
         return new GameStartSetup(this.id, this.gameSlots, enableMove, sign);
     }
 
-    public MoveInfo move(MoveRequest moveRequest) {
-        Long playerId = moveRequest.playerId();
+    public ValidatedMoveResponse move(MoveRequest moveRequest) {
+        moveRequest.validateForGame(this.playerTurn, this.gameSlots);
         int index = moveRequest.index();
-        if (!this.playerTurn.getId().equals(playerId)) {
-            throw new IllegalStateException("it is not this player turn");
-        }
-        if (index >= this.gameSlots.size() || index < 0) {
-            throw new IllegalStateException("incorrect index " + index);
-        }
-        if (this.gameSlots.get(index) != NONE) {
-            throw new IllegalStateException("index already filled");
-        }
         if (this.player1.equals(this.playerTurn)) {
             gameSlots.set(index, X);
             this.playerTurn = this.player2;
@@ -99,7 +90,7 @@ public class Game {
         }
         var winnerSlot = getWinner();
         winnerSlot.ifPresent(gameSlot -> this.winner = gameSlot);
-        return new MoveInfo(index, gameSlots.get(index),
+        return new ValidatedMoveResponse(index, gameSlots.get(index),
                 Optional.ofNullable(this.playerTurn).map(User::getId).orElse((long) -1),
                 winnerSlot.isPresent());
     }

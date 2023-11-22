@@ -1,6 +1,5 @@
 package com.tictactoe.tictactoe.controllers;
 
-import com.tictactoe.tictactoe.models.entities.GameScore;
 import com.tictactoe.tictactoe.models.MoveRequest;
 import com.tictactoe.tictactoe.services.GameScoreService;
 import com.tictactoe.tictactoe.services.GameService;
@@ -26,12 +25,11 @@ public class WebSocketController {
     @Transactional
     public void move(@DestinationVariable Long gameId, MoveRequest moveRequest) {
         var game = this.gameService.getGameById(gameId);
-        var moveInfo = game.move(moveRequest);
+        var validatedMoveResponse = game.move(moveRequest);
         this.gameService.updateGame(game);
-        if (moveInfo.isGameFinished()) {
-            var gameScore = new GameScore(game.getPlayer1(), game.getPlayer2(), game.getWinnerPlayer().get());
-            gameScoreService.saveGameScore(gameScore);
-        }
-        this.simpMessagingTemplate.convertAndSend("/topic/move/" + gameId, moveInfo);
+        validatedMoveResponse
+                .getGameFinalScore(game)
+                .ifPresent(gameScoreService::saveGameScore);
+        this.simpMessagingTemplate.convertAndSend("/topic/move/" + gameId, validatedMoveResponse);
     }
 }
