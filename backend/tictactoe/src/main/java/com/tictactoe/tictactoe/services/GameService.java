@@ -8,8 +8,6 @@ import com.tictactoe.tictactoe.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class GameService {
     private final GameRepository gameRepository;
@@ -30,27 +28,25 @@ public class GameService {
     }
 
     public Game getGameByPlayerId(Long playerId) {
-        Optional<User> user = userRepository.findById(playerId);
-        if (user.isEmpty()) {
-            throw new IllegalStateException("Could not find user with id " + playerId);
-        }
-        gameRepository.findAllByPlayer1_IdOrPlayer2_IdAndWinnerNull(playerId, playerId).forEach(
-                game -> {
-                    game.setWinner(GameSign.NONE);
-                    gameRepository.save(game);
-                }
-        );
-        Optional<Game> gameOptional = gameRepository.findFirstByPlayer2IsNullAndPlayer1_IdNotAndWinnerNull(playerId);
-        if (gameOptional.isPresent()) {
-            var game = gameOptional.get();
-            game.setPlayer2(user.get());
-            if (Optional.ofNullable(game.getPlayerTurn()).isEmpty()) {
-                game.setPlayerTurn(user.get());
-            }
-            gameRepository.save(game);
-            return game;
-        }
-        var newGame = new Game(user.get());
-        return gameRepository.save(newGame);
+        User user = userRepository
+                .findById(playerId)
+                .orElseThrow(() -> new IllegalStateException("Could not find user with id " + playerId));
+        gameRepository
+                .findAllByPlayer1_IdOrPlayer2_IdAndWinnerNull(playerId, playerId)
+                .forEach(
+                        game -> {
+                            game.setWinner(GameSign.NONE);
+                            gameRepository.save(game);
+                        }
+                );
+        var gameToReturn = gameRepository
+                .findFirstByPlayer2IsNullAndPlayer1_IdNotAndWinnerNull(playerId)
+                .map(
+                        game -> {
+                            game.setPlayer2(user);
+                            return game;
+                        }
+                ).orElse(new Game(user));
+        return gameRepository.save(gameToReturn);
     }
 }

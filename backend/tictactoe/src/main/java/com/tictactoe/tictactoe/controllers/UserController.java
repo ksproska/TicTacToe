@@ -29,7 +29,7 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity signup(@RequestBody UserCreateRequest userCreateRequest) {
         try {
-            var createdUser = userService.saveUser(userCreateRequest);
+            var createdUser = userService.signUp(userCreateRequest);
             var okMessage = "User with username '" + userCreateRequest.username() + "' created.";
             LOG.info(okMessage);
             return ResponseEntity.ok(new UserLoginResponse(createdUser.getId()));

@@ -129,4 +129,11 @@ public class Game {
         }
         return Optional.empty();
     }
+
+    public void setPlayer2(User player2) {
+        this.player2 = player2;
+        if (this.playerTurn == null) {
+            this.playerTurn = player2;
+        }
+    }
 }
