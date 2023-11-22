@@ -1,5 +1,5 @@
 package com.tictactoe.tictactoe.models.entities;
 
-public enum GameSlot {
+public enum GameSign {
     X, O, NONE
 }

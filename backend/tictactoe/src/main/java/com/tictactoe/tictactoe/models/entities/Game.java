@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.tictactoe.tictactoe.models.entities.GameSlot.*;
+import static com.tictactoe.tictactoe.models.entities.GameSign.*;
 
 @Entity
 @Getter
@@ -40,7 +40,7 @@ public class Game {
     @JoinTable(name = "game_slots", joinColumns = @JoinColumn(name = "game_id"))
     @Column(name = "game_slots", nullable = false)
     @Enumerated(EnumType.STRING)
-    private List<GameSlot> gameSlots;
+    private List<GameSign> gameSlots;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(nullable = false)
@@ -55,7 +55,7 @@ public class Game {
     private User playerTurn;
 
     @Enumerated(EnumType.STRING)
-    private GameSlot winner;
+    private GameSign winner;
 
     public Game(User player1) {
         this.gameSlots = List.of(
@@ -69,7 +69,7 @@ public class Game {
 
     public GameStartSetup getGameStartSetup(Long playerId) {
         boolean enableMove = Objects.equals(this.playerTurn.getId(), playerId);
-        GameSlot sign;
+        GameSign sign;
         if (Objects.equals(this.player1.getId(), playerId)) {
             sign = X;
         } else {
@@ -89,13 +89,13 @@ public class Game {
             this.playerTurn = this.player1;
         }
         var winnerSlot = getWinner();
-        winnerSlot.ifPresent(gameSlot -> this.winner = gameSlot);
+        winnerSlot.ifPresent(gameSign -> this.winner = gameSign);
         return new ValidatedMoveResponse(index, gameSlots.get(index),
                 Optional.ofNullable(this.playerTurn).map(User::getId).orElse((long) -1),
                 winnerSlot.isPresent());
     }
 
-    public Optional<GameSlot> getWinner() {
+    public Optional<GameSign> getWinner() {
         for (var winningInxSetup : finishers) {
             var signs = winningInxSetup
                     .stream()
