@@ -10,18 +10,18 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class WebSocketController {
+public class MoveController {
     private final GameService gameService;
     private final GameScoreService gameScoreService;
     private final SimpMessagingTemplate simpMessagingTemplate;
 
-    public WebSocketController(GameService gameService, GameScoreService gameScoreService, SimpMessagingTemplate simpMessagingTemplate) {
+    public MoveController(GameService gameService, GameScoreService gameScoreService, SimpMessagingTemplate simpMessagingTemplate) {
         this.gameService = gameService;
         this.gameScoreService = gameScoreService;
         this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
-    @MessageMapping("/move/{gameId}")
+    @MessageMapping("/requested-move/{gameId}")
     @Transactional
     public void move(@DestinationVariable Long gameId, MoveRequest moveRequest) {
         var game = this.gameService.getGameById(gameId);
@@ -30,6 +30,6 @@ public class WebSocketController {
         validatedMoveResponse
                 .getGameFinalScore(game)
                 .ifPresent(gameScoreService::saveGameScore);
-        this.simpMessagingTemplate.convertAndSend("/topic/move/" + gameId, validatedMoveResponse);
+        this.simpMessagingTemplate.convertAndSend("/topic/verified-move/" + gameId, validatedMoveResponse);
     }
 }

@@ -47,7 +47,7 @@ export class GameComponent implements OnInit {
 
     this.stompClient.connect({}, () => {
       this.stompClient.subscribe(
-        '/topic/move/' + this.gameStartSetup.gameId,
+        '/topic/verified-move/' + this.gameStartSetup.gameId,
         (message: any) => {
           let move = JSON.parse(message.body)
           this.buttonLabels[move.index] = move.sign
@@ -90,7 +90,7 @@ export class GameComponent implements OnInit {
   }
 
   clickBtn(buttonNum: number) {
-    this.stompClient.send('/app/move/'+ this.gameStartSetup.gameId, {}, JSON.stringify({
+    this.stompClient.send('/app/requested-move/'+ this.gameStartSetup.gameId, {}, JSON.stringify({
       playerId: this.userId,
       index: buttonNum
     }))
