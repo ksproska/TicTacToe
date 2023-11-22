@@ -24,3 +24,4 @@ hs_err_pid*
 replay_pid*
 
 .idea
+/backend/dev-db:tictactoe.mv.db

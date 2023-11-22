@@ -88,14 +88,14 @@ public class Game {
             gameSlots.set(index, O);
             this.playerTurn = this.player1;
         }
-        var winnerSlot = getWinner();
+        var winnerSlot = getWinnerSign();
         winnerSlot.ifPresent(gameSign -> this.winner = gameSign);
         return new ValidatedMoveResponse(index, gameSlots.get(index),
                 Optional.ofNullable(this.playerTurn).map(User::getId).orElse((long) -1),
                 winnerSlot.isPresent());
     }
 
-    public Optional<GameSign> getWinner() {
+    public Optional<GameSign> getWinnerSign() {
         for (var winningInxSetup : finishers) {
             var signs = winningInxSetup
                     .stream()
@@ -120,7 +120,7 @@ public class Game {
     }
 
     public Optional<User> getWinnerPlayer() {
-        var winnerSlot = getWinner();
+        var winnerSlot = getWinnerSign();
         if (winnerSlot.isPresent() && winnerSlot.get().equals(X)) {
             return Optional.of(this.player1);
         }

@@ -1,6 +1,7 @@
 package com.tictactoe.tictactoe.services;
 
 import com.tictactoe.tictactoe.models.entities.Game;
+import com.tictactoe.tictactoe.models.entities.GameSign;
 import com.tictactoe.tictactoe.models.entities.User;
 import com.tictactoe.tictactoe.repositories.GameRepository;
 import com.tictactoe.tictactoe.repositories.UserRepository;
@@ -33,14 +34,20 @@ public class GameService {
         if (user.isEmpty()) {
             throw new IllegalStateException("Could not find user with id " + playerId);
         }
-        Optional<Game> gameOptional = gameRepository.findFirstByPlayer2IsNullAndPlayer1_IdNot(playerId);
+        gameRepository.findAllByPlayer1_IdOrPlayer2_IdAndWinnerNull(playerId, playerId).forEach(
+                game -> {
+                    game.setWinner(GameSign.NONE);
+                    gameRepository.save(game);
+                }
+        );
+        Optional<Game> gameOptional = gameRepository.findFirstByPlayer2IsNullAndPlayer1_IdNotAndWinnerNull(playerId);
         if (gameOptional.isPresent()) {
             var game = gameOptional.get();
             game.setPlayer2(user.get());
             if (Optional.ofNullable(game.getPlayerTurn()).isEmpty()) {
                 game.setPlayerTurn(user.get());
             }
-            gameRepository.flush();
+            gameRepository.save(game);
             return game;
         }
         var newGame = new Game(user.get());
