@@ -67,35 +67,59 @@ public class Game {
         this.playerTurn = player1;
     }
 
+    public void setPlayer2(User player2) {
+        this.player2 = player2;
+        if (this.playerTurn == null) {
+            this.playerTurn = player2;
+        }
+    }
+
     public GameStartSetup getGameStartSetup(Long playerId) {
         boolean enableMove = Objects.equals(this.playerTurn.getId(), playerId);
-        GameSign sign;
-        if (Objects.equals(this.player1.getId(), playerId)) {
-            sign = X;
-        } else {
-            sign = O;
-        }
-        return new GameStartSetup(this.id, this.gameSlots, enableMove, sign);
+        GameSign playerSign = (playerId.equals(player1.getId())) ? X : O;
+        return new GameStartSetup(
+                this.id,
+                this.gameSlots,
+                enableMove,
+                playerSign
+        );
     }
 
     public ValidatedMoveResponse move(MoveRequest moveRequest) {
         moveRequest.validateForGame(this.playerTurn, this.gameSlots);
+
         int index = moveRequest.index();
-        if (this.player1.equals(this.playerTurn)) {
-            gameSlots.set(index, X);
-            this.playerTurn = this.player2;
-        } else {
-            gameSlots.set(index, O);
-            this.playerTurn = this.player1;
-        }
+        GameSign playerSign = (this.playerTurn.equals(this.player1)) ? X : O;
+        gameSlots.set(index, playerSign);
+        setNextPlayerTurn();
+
         var winnerSlot = getWinnerSign();
         winnerSlot.ifPresent(gameSign -> this.winner = gameSign);
-        return new ValidatedMoveResponse(index, gameSlots.get(index),
-                Optional.ofNullable(this.playerTurn).map(User::getId).orElse((long) -1),
-                winnerSlot.isPresent());
+
+        Long nextPlayerId = Optional.ofNullable(this.playerTurn).map(User::getId).orElse((long) -1);
+        boolean isGameFinished = winnerSlot.isPresent();
+        return new ValidatedMoveResponse(
+                index,
+                playerSign,
+                nextPlayerId,
+                isGameFinished
+        );
     }
 
-    public Optional<GameSign> getWinnerSign() {
+    public Optional<User> getWinnerPlayer() {
+        return getWinnerSign()
+                .flatMap(this::getPlayerForGameSign);
+    }
+
+    private void setNextPlayerTurn() {
+        if (this.player1.equals(this.playerTurn)) {
+            this.playerTurn = this.player2;
+        } else {
+            this.playerTurn = this.player1;
+        }
+    }
+
+    private Optional<GameSign> getWinnerSign() {
         for (var winningInxSetup : finishers) {
             var signs = winningInxSetup
                     .stream()
@@ -111,29 +135,12 @@ public class Game {
                 }
             }
         }
-        if (this.gameSlots
-                .stream()
-                .allMatch(NONE::equals)) {
-            return Optional.of(NONE);
-        }
-        return Optional.empty();
+        return (this.gameSlots.stream().allMatch(NONE::equals)) ? Optional.of(NONE) : Optional.empty();
     }
 
-    public Optional<User> getWinnerPlayer() {
-        var winnerSlot = getWinnerSign();
-        if (winnerSlot.isPresent() && winnerSlot.get().equals(X)) {
-            return Optional.of(this.player1);
-        }
-        if (winnerSlot.isPresent() && winnerSlot.get().equals(O)) {
-            return Optional.of(this.player2);
-        }
+    private Optional<User> getPlayerForGameSign(GameSign sign) {
+        if (sign.equals(X)) return Optional.of(player1);
+        if (sign.equals(O)) return Optional.of(player2);
         return Optional.empty();
-    }
-
-    public void setPlayer2(User player2) {
-        this.player2 = player2;
-        if (this.playerTurn == null) {
-            this.playerTurn = player2;
-        }
     }
 }
