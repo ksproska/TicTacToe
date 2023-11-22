@@ -29,7 +29,7 @@ public class UserService {
         var userDetails = userRepository
                 .findByUsername(request.username())
                 .orElseThrow(() -> new IllegalArgumentException("No user of name '" + request.username() + "' found."));
-        if(!userDetails.getPassword().equals(request.password())) {
+        if (!userDetails.getPassword().equals(request.password())) {
             throw new IllegalStateException("Incorrect password.");
         }
         return new UserLoginResponse(userDetails.getId());

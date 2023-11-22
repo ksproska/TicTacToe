@@ -1,3 +1,6 @@
 package com.tictactoe.tictactoe.models;
 
-public record UserVerificationRequest(Long userId, String username) {}
+public record UserVerificationRequest(
+        Long userId,
+        String username
+) {}

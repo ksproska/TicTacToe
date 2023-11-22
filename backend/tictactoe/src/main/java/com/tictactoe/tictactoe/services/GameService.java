@@ -20,16 +20,24 @@ public class GameService {
         this.userRepository = userRepository;
     }
 
-    public Game getGame(Long playerId) {
+    public Game getGameById(Long gameId) {
+        return gameRepository.getReferenceById(gameId);
+    }
+
+    public void updateGame(Game game) {
+        this.gameRepository.save(game);
+    }
+
+    public Game getGameByPlayerId(Long playerId) {
         Optional<User> user = userRepository.findById(playerId);
-        if(user.isEmpty()) {
+        if (user.isEmpty()) {
             throw new IllegalStateException("Could not find user with id " + playerId);
         }
         Optional<Game> gameOptional = gameRepository.findFirstByPlayer2IsNullAndPlayer1_IdNot(playerId);
         if (gameOptional.isPresent()) {
             var game = gameOptional.get();
             game.setPlayer2(user.get());
-            if(Optional.ofNullable(game.getPlayerTurn()).isEmpty()) {
+            if (Optional.ofNullable(game.getPlayerTurn()).isEmpty()) {
                 game.setPlayerTurn(user.get());
             }
             gameRepository.flush();
@@ -37,13 +45,5 @@ public class GameService {
         }
         var newGame = new Game(user.get());
         return gameRepository.save(newGame);
-    }
-
-    public Game getGameById(Long gameId) {
-        return gameRepository.getReferenceById(gameId);
-    }
-
-    public void update(Game game) {
-        this.gameRepository.save(game);
     }
 }

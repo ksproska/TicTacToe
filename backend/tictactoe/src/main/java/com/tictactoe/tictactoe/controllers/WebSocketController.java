@@ -27,7 +27,7 @@ public class WebSocketController {
     public void move(@DestinationVariable Long gameId, MoveRequest moveRequest) {
         var game = this.gameService.getGameById(gameId);
         var moveInfo = game.move(moveRequest);
-        this.gameService.update(game);
+        this.gameService.updateGame(game);
         if (moveInfo.isGameFinished()) {
             var gameScore = new GameScore(game.getPlayer1(), game.getPlayer2(), game.getWinnerPlayer().get());
             gameScoreService.saveGameScore(gameScore);

@@ -22,7 +22,7 @@ public class GameController {
 
     @PutMapping("/get-game")
     public ResponseEntity<GameInfo> getGame(@RequestBody User player) {
-        var game = gameService.getGame(player.getId());
+        var game = gameService.getGameByPlayerId(player.getId());
         return ResponseEntity.ok(game.getGameInfo(player.getId()));
     }
 }
