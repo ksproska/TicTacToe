@@ -2,10 +2,10 @@ import { TestBed } from '@angular/core/testing';
 import { ResolveFn } from '@angular/router';
 
 import { GameResolver } from './gameResolver';
-import {GameInfo} from "../models/game-info";
+import {GameStartSetup} from "../models/game-start-setup";
 
 describe('gameResolver', () => {
-  const executeResolver: ResolveFn<GameInfo> = (...resolverParameters) =>
+  const executeResolver: ResolveFn<GameStartSetup> = (...resolverParameters) =>
       TestBed.runInInjectionContext(() => GameResolver(...resolverParameters));
 
   beforeEach(() => {

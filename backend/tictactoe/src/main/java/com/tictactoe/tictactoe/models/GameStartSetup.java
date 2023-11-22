@@ -4,7 +4,7 @@ import com.tictactoe.tictactoe.models.entities.GameSlot;
 
 import java.util.List;
 
-public record GameInfo(
+public record GameStartSetup(
         Long gameId,
         List<GameSlot> gameSlots,
         boolean enableMove,

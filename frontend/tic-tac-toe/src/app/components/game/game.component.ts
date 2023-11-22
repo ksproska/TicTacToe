@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ActivatedRoute} from "@angular/router";
-import {GameInfo} from "../../models/game-info";
+import {GameStartSetup} from "../../models/game-start-setup";
 import StompJs from "stompjs";
 import {environment} from "../../../environments/environment";
 
@@ -17,13 +17,13 @@ export class GameComponent implements OnInit {
   buttonLabels: any;
   isButtonDisabled: any;
   classTypes: any;
-  gameInfo: GameInfo;
+  gameStartSetup: GameStartSetup;
   stompClient: StompJs.Client;
   // @ts-ignore
   message: string;
 
   constructor(private readonly activatedRoute: ActivatedRoute) {
-    this.gameInfo = this.activatedRoute.snapshot.data['gameInfo'];
+    this.gameStartSetup = this.activatedRoute.snapshot.data['gameStartSetup'];
     this.stompClient = StompJs.client('ws://localhost:8080/websocket');
   }
 
@@ -31,15 +31,15 @@ export class GameComponent implements OnInit {
     this.buttonLabels = [];
     this.isButtonDisabled = [];
     this.classTypes = [];
-    for (let i = 0; i < this.gameInfo.gameSlots.length; i++) {
-      if (this.gameInfo.gameSlots[i] == "NONE") {
+    for (let i = 0; i < this.gameStartSetup.gameSlots.length; i++) {
+      if (this.gameStartSetup.gameSlots[i] == "NONE") {
         this.isButtonDisabled[i] = false
       } else {
-        this.buttonLabels[i] = this.gameInfo.gameSlots[i]
+        this.buttonLabels[i] = this.gameStartSetup.gameSlots[i]
         this.isButtonDisabled[i] = true
       }
     }
-    if(!this.gameInfo.enableMove) {
+    if(!this.gameStartSetup.enableMove) {
       this.disableAll()
     } else {
       this.message = "It is your move!"
@@ -47,7 +47,7 @@ export class GameComponent implements OnInit {
 
     this.stompClient.connect({}, () => {
       this.stompClient.subscribe(
-        '/topic/move/' + this.gameInfo.gameId,
+        '/topic/move/' + this.gameStartSetup.gameId,
         (message: any) => {
           let move = JSON.parse(message.body)
           this.buttonLabels[move.index] = move.sign
@@ -90,14 +90,14 @@ export class GameComponent implements OnInit {
   }
 
   clickBtn(buttonNum: number) {
-    this.stompClient.send('/app/move/'+ this.gameInfo.gameId, {}, JSON.stringify({
+    this.stompClient.send('/app/move/'+ this.gameStartSetup.gameId, {}, JSON.stringify({
       playerId: this.userId,
       index: buttonNum
     }))
   }
 
   private undisableEmpty() {
-    for (let i = 0; i < this.gameInfo.gameSlots.length; i++) {
+    for (let i = 0; i < this.gameStartSetup.gameSlots.length; i++) {
       if (this.buttonLabels[i] == null) {
         this.isButtonDisabled[i] = false
       }

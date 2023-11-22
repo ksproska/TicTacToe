@@ -1,6 +1,6 @@
 package com.tictactoe.tictactoe.models.entities;
 
-import com.tictactoe.tictactoe.models.GameInfo;
+import com.tictactoe.tictactoe.models.GameStartSetup;
 import com.tictactoe.tictactoe.models.MoveInfo;
 import com.tictactoe.tictactoe.models.MoveRequest;
 import jakarta.persistence.*;
@@ -67,7 +67,7 @@ public class Game {
         this.playerTurn = player1;
     }
 
-    public GameInfo getGameInfo(Long playerId) {
+    public GameStartSetup getGameStartSetup(Long playerId) {
         boolean enableMove = Objects.equals(this.playerTurn.getId(), playerId);
         GameSlot sign;
         if (Objects.equals(this.player1.getId(), playerId)) {
@@ -75,7 +75,7 @@ public class Game {
         } else {
             sign = O;
         }
-        return new GameInfo(this.id, this.gameSlots, enableMove, sign);
+        return new GameStartSetup(this.id, this.gameSlots, enableMove, sign);
     }
 
     public MoveInfo move(MoveRequest moveRequest) {

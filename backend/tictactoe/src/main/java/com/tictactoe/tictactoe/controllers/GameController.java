@@ -1,6 +1,6 @@
 package com.tictactoe.tictactoe.controllers;
 
-import com.tictactoe.tictactoe.models.GameInfo;
+import com.tictactoe.tictactoe.models.GameStartSetup;
 import com.tictactoe.tictactoe.models.entities.User;
 import com.tictactoe.tictactoe.services.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +21,8 @@ public class GameController {
     }
 
     @PutMapping("/get-game")
-    public ResponseEntity<GameInfo> getGame(@RequestBody User player) {
+    public ResponseEntity<GameStartSetup> getGame(@RequestBody User player) {
         var game = gameService.getGameByPlayerId(player.getId());
-        return ResponseEntity.ok(game.getGameInfo(player.getId()));
+        return ResponseEntity.ok(game.getGameStartSetup(player.getId()));
     }
 }

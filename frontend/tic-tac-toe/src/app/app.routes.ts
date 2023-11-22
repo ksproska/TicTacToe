@@ -25,7 +25,7 @@ export const routes: Routes = [
     path: "game",
     component: GameComponent,
     resolve: {
-      gameInfo: GameResolver
+      gameStartSetup: GameResolver
     }
   },
   {
