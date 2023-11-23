@@ -3,35 +3,44 @@
 <table class="center">
   <tr>
     <td>
-      <button class="tic-tac-toe" [class]="classTypes[0]" type="button" [disabled]="isButtonDisabled[0]"  (click)="clickBtn(0)">{{buttonLabels[0]}}</button>
+      <button class="tic-tac-toe" [class]="classTypes[0]" type="button" [disabled]="isButtonDisabled[0]"
+              (click)="clickGameSlot(0)">{{buttonLabels[0]}}</button>
     </td>
     <td>
-      <button class="tic-tac-toe" [class]="classTypes[1]" type="button" [disabled]="isButtonDisabled[1]"  (click)="clickBtn(1)">{{buttonLabels[1]}}</button>
+      <button class="tic-tac-toe" [class]="classTypes[1]" type="button" [disabled]="isButtonDisabled[1]"
+              (click)="clickGameSlot(1)">{{buttonLabels[1]}}</button>
     </td>
     <td>
-      <button class="tic-tac-toe" [class]="classTypes[2]" type="button" [disabled]="isButtonDisabled[2]"  (click)="clickBtn(2)">{{buttonLabels[2]}}</button>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <button class="tic-tac-toe" [class]="classTypes[3]" type="button" [disabled]="isButtonDisabled[3]"  (click)="clickBtn(3)">{{buttonLabels[3]}}</button>
-    </td>
-    <td>
-      <button class="tic-tac-toe" [class]="classTypes[4]" type="button" [disabled]="isButtonDisabled[4]"  (click)="clickBtn(4)">{{buttonLabels[4]}}</button>
-    </td>
-    <td>
-      <button class="tic-tac-toe" [class]="classTypes[5]" type="button" [disabled]="isButtonDisabled[5]"  (click)="clickBtn(5)">{{buttonLabels[5]}}</button>
+      <button class="tic-tac-toe" [class]="classTypes[2]" type="button" [disabled]="isButtonDisabled[2]"
+              (click)="clickGameSlot(2)">{{buttonLabels[2]}}</button>
     </td>
   </tr>
   <tr>
     <td>
-      <button class="tic-tac-toe" [class]="classTypes[6]" type="button" [disabled]="isButtonDisabled[6]"  (click)="clickBtn(6)">{{buttonLabels[6]}}</button>
+      <button class="tic-tac-toe" [class]="classTypes[3]" type="button" [disabled]="isButtonDisabled[3]"
+              (click)="clickGameSlot(3)">{{buttonLabels[3]}}</button>
     </td>
     <td>
-      <button class="tic-tac-toe" [class]="classTypes[7]" type="button" [disabled]="isButtonDisabled[7]"  (click)="clickBtn(7)">{{buttonLabels[7]}}</button>
+      <button class="tic-tac-toe" [class]="classTypes[4]" type="button" [disabled]="isButtonDisabled[4]"
+              (click)="clickGameSlot(4)">{{buttonLabels[4]}}</button>
     </td>
     <td>
-      <button class="tic-tac-toe" [class]="classTypes[8]" type="button" [disabled]="isButtonDisabled[8]"  (click)="clickBtn(8)">{{buttonLabels[8]}}</button>
+      <button class="tic-tac-toe" [class]="classTypes[5]" type="button" [disabled]="isButtonDisabled[5]"
+              (click)="clickGameSlot(5)">{{buttonLabels[5]}}</button>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <button class="tic-tac-toe" [class]="classTypes[6]" type="button" [disabled]="isButtonDisabled[6]"
+              (click)="clickGameSlot(6)">{{buttonLabels[6]}}</button>
+    </td>
+    <td>
+      <button class="tic-tac-toe" [class]="classTypes[7]" type="button" [disabled]="isButtonDisabled[7]"
+              (click)="clickGameSlot(7)">{{buttonLabels[7]}}</button>
+    </td>
+    <td>
+      <button class="tic-tac-toe" [class]="classTypes[8]" type="button" [disabled]="isButtonDisabled[8]"
+              (click)="clickGameSlot(8)">{{buttonLabels[8]}}</button>
     </td>
   </tr>
 </table>

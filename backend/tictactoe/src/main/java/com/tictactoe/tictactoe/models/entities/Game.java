@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -98,11 +99,13 @@ public class Game {
 
         Long nextPlayerId = Optional.ofNullable(this.playerTurn).map(User::getId).orElse((long) -1);
         boolean isGameFinished = winnerSlot.isPresent();
+        List<Integer> winningIndexes = this.getWinningIndexes().orElse(new ArrayList<>());
         return new ValidatedMoveResponse(
                 index,
                 playerSign,
                 nextPlayerId,
-                isGameFinished
+                isGameFinished,
+                winningIndexes
         );
     }
 
@@ -117,6 +120,25 @@ public class Game {
         } else {
             this.playerTurn = this.player1;
         }
+    }
+
+    private Optional<List<Integer>> getWinningIndexes() {
+        for (var winningInxSetup : finishers) {
+            var signs = winningInxSetup
+                    .stream()
+                    .map(this.gameSlots::get)
+                    .filter(sign -> !NONE.equals(sign))
+                    .toList();
+            if (signs.size() == 3) {
+                if (signs.stream().allMatch(X::equals)) {
+                    return Optional.of(winningInxSetup);
+                }
+                if (signs.stream().allMatch(O::equals)) {
+                    return Optional.of(winningInxSetup);
+                }
+            }
+        }
+        return Optional.empty();
     }
 
     private Optional<GameSign> getWinnerSign() {

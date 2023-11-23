@@ -4,13 +4,15 @@ import com.tictactoe.tictactoe.models.entities.Game;
 import com.tictactoe.tictactoe.models.entities.GameScore;
 import com.tictactoe.tictactoe.models.entities.GameSign;
 
+import java.util.List;
 import java.util.Optional;
 
 public record ValidatedMoveResponse(
         int index,
         GameSign sign,
         Long nextPlayer,
-        boolean isGameFinished
+        boolean isGameFinished,
+        List<Integer> winningIndexes
 ) {
     public Optional<GameScore> getGameFinalScore(Game game) {
         if (!isGameFinished) {
