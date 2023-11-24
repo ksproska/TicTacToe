@@ -157,7 +157,7 @@ public class Game {
                 }
             }
         }
-        return (this.gameSlots.stream().allMatch(NONE::equals)) ? Optional.of(NONE) : Optional.empty();
+        return (this.gameSlots.stream().noneMatch(NONE::equals)) ? Optional.of(NONE) : Optional.empty();
     }
 
     private Optional<User> getPlayerForGameSign(GameSign sign) {

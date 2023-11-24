@@ -62,7 +62,10 @@ export class GameComponent implements OnInit {
     if (move.isGameFinished) {
       this.stompClient.disconnect(() => {
         this.disableAll();
-        if (move.nextPlayer != this.userId) {
+        if (move.winningIndexes.length == 0) {
+          this.message = "IT IS A DRAW!"
+        }
+        else if (move.nextPlayer != this.userId) {
           this.message = "YOU WON!"
           for (const element of move.winningIndexes) {
             this.classTypes[element] = "winner";
