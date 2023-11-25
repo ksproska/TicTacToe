@@ -23,6 +23,7 @@ import static com.tictactoe.tictactoe.models.entities.GameSign.*;
 @AllArgsConstructor
 @Table(name = "game")
 public class Game {
+    @Transient
     private static List<List<Integer>> finishers = List.of(
             List.of(0, 1, 2),
             List.of(3, 4, 5),
@@ -57,6 +58,9 @@ public class Game {
 
     @Enumerated(EnumType.STRING)
     private GameSign winner;
+
+    @ElementCollection
+    private List<Integer> moves = new ArrayList<>();
 
     public Game(User player1) {
         this.gameSlots = List.of(
@@ -100,13 +104,27 @@ public class Game {
         Long nextPlayerId = Optional.ofNullable(this.playerTurn).map(User::getId).orElse((long) -1);
         boolean isGameFinished = winnerSlot.isPresent();
         List<Integer> winningIndexes = this.getWinningIndexes().orElse(new ArrayList<>());
+        moves.add(index);
         return new ValidatedMoveResponse(
                 index,
                 playerSign,
                 nextPlayerId,
                 isGameFinished,
-                winningIndexes
+                winningIndexes,
+                false
         );
+    }
+
+    public Optional<ValidatedMoveResponse> getFirstMoveForPlayer2LateAssigment() {
+        if (moves.size() != 1) return Optional.empty();
+        return Optional.of(new ValidatedMoveResponse(
+                moves.get(0),
+                X,
+                player2.getId(),
+                false,
+                null,
+                false
+        ));
     }
 
     public Optional<User> getWinnerPlayer() {

@@ -4,4 +4,5 @@ export interface ValidatedMoveResponse {
   nextPlayer: number
   isGameFinished: boolean
   winningIndexes: number[]
+  gameAbandoned: boolean
 }

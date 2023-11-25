@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ActivatedRoute} from "@angular/router";
 import {GameStartSetup} from "../../models/game-start-setup";
@@ -13,7 +13,7 @@ import {ValidatedMoveResponse} from "../../models/validated-move-response";
   templateUrl: './game.component.html',
   styleUrl: './game.component.css'
 })
-export class GameComponent implements OnInit {
+export class GameComponent implements OnInit, OnDestroy {
   userId = Number(localStorage.getItem(environment.LOCAL_STORAGE_USER_ID))
   buttonLabels: any;
   isButtonDisabled: any;
@@ -24,6 +24,8 @@ export class GameComponent implements OnInit {
   message: string;
   // @ts-ignore
   numberOfSlots: number;
+  // @ts-ignore
+  subscription: StompJs.Subscription;
 
   constructor(private readonly activatedRoute: ActivatedRoute) {
     this.gameStartSetup = this.activatedRoute.snapshot.data['gameStartSetup'];
@@ -38,7 +40,7 @@ export class GameComponent implements OnInit {
 
     this.setupGameBoard();
     this.stompClient.connect({}, () => {
-      this.stompClient.subscribe(
+      this.subscription = this.stompClient.subscribe(
         '/topic/verified-move/' + this.gameStartSetup.gameId,
         (message: any) => {
           let move = JSON.parse(message.body)
@@ -48,36 +50,55 @@ export class GameComponent implements OnInit {
     })
   }
 
+  public ngOnDestroy() {
+    this.subscription.unsubscribe()
+    this.stompClient.disconnect(() => {
+    })
+  }
+
   private processMove(move: ValidatedMoveResponse) {
+    if (move.gameAbandoned) {
+      this.subscription.unsubscribe()
+      this.stompClient.disconnect(() => {
+        this.disableAll()
+        this.message = "Another user abandoned this game. Reload page to play with someone else!"
+      })
+      return;
+    }
     this.buttonLabels[move.index] = move.sign
     this.isButtonDisabled[move.index] = true
 
     if (move.nextPlayer == this.userId) {
       this.undisableEmpty()
       this.message = "It is your move!"
+    } else if (move.nextPlayer == -1) {
+      this.disableAll()
+      this.message = "Another player is not yet assigned..."
     } else {
       this.disableAll()
       this.message = ""
     }
-    if (move.isGameFinished) {
-      this.stompClient.disconnect(() => {
-        this.disableAll();
-        if (move.winningIndexes.length == 0) {
-          this.message = "IT IS A DRAW!"
-        }
-        else if (move.nextPlayer != this.userId) {
-          this.message = "YOU WON!"
-          for (const element of move.winningIndexes) {
-            this.classTypes[element] = "winner";
-          }
-        } else {
-          this.message = "YOU LOST!"
-          for (const element of move.winningIndexes) {
-            this.classTypes[element] = "loser";
-          }
-        }
-      })
+    if (!move.isGameFinished) {
+      return;
     }
+    this.subscription.unsubscribe()
+    this.stompClient.disconnect(() => {
+      this.disableAll();
+      if (move.winningIndexes.length == 0) {
+        this.message = "IT IS A DRAW!"
+      } else if (move.nextPlayer != this.userId) {
+        this.message = "YOU WON!"
+        for (const element of move.winningIndexes) {
+          this.classTypes[element] = "winner";
+        }
+      } else {
+        this.message = "YOU LOST!"
+        for (const element of move.winningIndexes) {
+          this.classTypes[element] = "loser";
+        }
+      }
+    })
+
   }
 
   private setupGameBoard() {

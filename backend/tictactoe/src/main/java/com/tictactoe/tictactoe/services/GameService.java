@@ -23,6 +23,12 @@ public class GameService {
         return gameRepository.getReferenceById(gameId);
     }
 
+    public void setGameFinishedWithoutWinner(Long gameId) {
+        var game = gameRepository.getReferenceById(gameId);
+        game.setWinner(GameSign.NONE);
+        this.gameRepository.save(game);
+    }
+
     public void updateGame(Game game) {
         this.gameRepository.save(game);
     }

@@ -12,7 +12,8 @@ public record ValidatedMoveResponse(
         GameSign sign,
         Long nextPlayer,
         boolean isGameFinished,
-        List<Integer> winningIndexes
+        List<Integer> winningIndexes,
+        boolean gameAbandoned
 ) {
     public Optional<GameScore> getGameFinalScore(Game game) {
         if (!isGameFinished) {
@@ -22,4 +23,7 @@ public record ValidatedMoveResponse(
                 .getWinnerPlayer()
                 .map(winner -> new GameScore(game.getPlayer1(), game.getPlayer2(), winner));
     }
+
+    public static ValidatedMoveResponse GAME_ABANDONED_RESPONSE =
+            new ValidatedMoveResponse(-1, null, -1L, false, null, true);
 }
