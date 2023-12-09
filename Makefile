@@ -1,23 +1,11 @@
-nvm-setup:
-	nvm list available
-	nvm install 20.9.0
-	nvm use 20.9.0
-	# Now using node v20.9.0 (npm v10.1.0)
+start:
+	docker compose up -d --build
 
-npm-install:
-	npm install -g @angular/cli
-	npm install -g npm@10.2.3
-	npm install
+start-dev:
+	docker compose -f ./docker-compose-dev.yaml up -d --build
 
-create-new:
-	ng new tic-tac-toe
+stop:
+	docker compose down
 
-populate-db:
-	curl -d '{"username":"kamila", "password": "pass"}' -H "Content-Type: application/json" -X POST http://localhost:8080/signup
-	curl -d '{"username":"szymon", "password": "pass"}' -H "Content-Type: application/json" -X POST http://localhost:8080/signup
-	curl -d '{"username":"agnieszka", "password": "pass"}' -H "Content-Type: application/json" -X POST http://localhost:8080/signup
-
-get-game:
-	curl -d '{"id": 2}' -H "Content-Type: application/json" -X PUT http://localhost:8080/get-game
-	curl -d '{"id": 2}' -H "Content-Type: application/json" -X PUT http://localhost:8080/get-game
-	curl -d '{"id": 3}' -H "Content-Type: application/json" -X PUT http://localhost:8080/get-game
+stop-dev:
+	docker compose -f ./docker-compose-dev.yaml down

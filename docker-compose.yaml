@@ -1,23 +1,5 @@
 version: "3.4"
 services:
-  db:
-    container_name: db
-    hostname: db
-    image: mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=password
-      - MYSQL_DATABASE=tictactoe
-      - MYSQL_USER=mysql
-      - MYSQL_PASSWORD=password
-    networks:
-      - priv-network
-    ports:
-      - "3306:3306"
-    healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
-      retries: 30
-      interval: 2s
-
   backend:
     container_name: backend
     hostname: backend
@@ -25,15 +7,11 @@ services:
       context: backend
       dockerfile: Dockerfile
       target: "backend"
+    network_mode: "host"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/tictactoe?allowPublicKeyRetrieval=true&autoReconnect=true&useSSL=false
-    networks:
-      - priv-network
-    ports:
-      - "8080:8080"
-    depends_on:
-      db:
-        condition: service_healthy
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: tictactoe2023!
+      SPRING_DATASOURCE_URL: jdbc:mysql://database-1.cwcuuvfyrh3z.us-east-1.rds.amazonaws.com:3306/tictactoe
     healthcheck:
       test: [ "CMD", "curl", "http://localhost:8080/healthcheck" ]
       interval: 2s
@@ -43,14 +21,7 @@ services:
     container_name: frontend
     hostname: frontend
     build: frontend
-    networks:
-      - priv-network
-    ports:
-      - "4200:4200"
+    network_mode: "host"
     depends_on:
       backend:
         condition: service_healthy
-
-networks:
-  priv-network:
-    driver: bridge
