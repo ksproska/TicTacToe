@@ -3,10 +3,7 @@ services:
   backend:
     container_name: backend
     hostname: backend
-    build:
-      context: backend
-      dockerfile: Dockerfile
-      target: "backend"
+    image: ksproska/tictactoe-aws-backend
     network_mode: "host"
     environment:
       SPRING_DATASOURCE_USERNAME: admin
@@ -20,7 +17,7 @@ services:
   frontend:
     container_name: frontend
     hostname: frontend
-    build: frontend
+    image: ksproska/tictactoe-aws-frontend
     network_mode: "host"
     depends_on:
       backend:
