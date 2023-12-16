@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ActivatedRoute} from "@angular/router";
 import {GameStartSetup} from "../../models/game-start-setup";
-import StompJs from "stompjs";
+import {Client} from "@stomp/stompjs";
 import {environment} from "../../../environments/environment";
 import {ValidatedMoveResponse} from "../../models/validated-move-response";
 
@@ -19,17 +19,27 @@ export class GameComponent implements OnInit, OnDestroy {
   isButtonDisabled: any;
   classTypes: any;
   gameStartSetup: GameStartSetup;
-  stompClient: StompJs.Client;
+  stompClient: Client;
   // @ts-ignore
   message: string;
   // @ts-ignore
   numberOfSlots: number;
   // @ts-ignore
-  subscription: StompJs.Subscription;
+  subscription: Client.Subscription;
 
   constructor(private readonly activatedRoute: ActivatedRoute) {
     this.gameStartSetup = this.activatedRoute.snapshot.data['gameStartSetup'];
-    this.stompClient = StompJs.client(environment.websocket);
+    this.stompClient = new Client({
+      brokerURL: environment.websocket,
+      onConnect: () => {
+        this.subscription = this.stompClient.subscribe('/topic/verified-move/' + this.gameStartSetup.gameId,
+          (message: any) => {
+            let move = JSON.parse(message.body)
+            this.processMove(move);
+          })
+      },
+    });
+    this.stompClient.activate();
   }
 
   public ngOnInit(): void {
@@ -39,30 +49,19 @@ export class GameComponent implements OnInit, OnDestroy {
     this.numberOfSlots = this.gameStartSetup.gameSlots.length;
 
     this.setupGameBoard();
-    this.stompClient.connect({}, () => {
-      this.subscription = this.stompClient.subscribe(
-        '/topic/verified-move/' + this.gameStartSetup.gameId,
-        (message: any) => {
-          let move = JSON.parse(message.body)
-          this.processMove(move);
-        }
-      )
-    })
   }
 
   public ngOnDestroy() {
     this.subscription.unsubscribe()
-    this.stompClient.disconnect(() => {
-    })
+    this.stompClient.forceDisconnect()
   }
 
   private processMove(move: ValidatedMoveResponse) {
     if (move.gameAbandoned) {
       this.subscription.unsubscribe()
-      this.stompClient.disconnect(() => {
-        this.disableAll()
-        this.message = "Another user abandoned this game. Reload page to play with someone else!"
-      })
+      this.stompClient.forceDisconnect()
+      this.disableAll()
+      this.message = "Another user abandoned this game. Reload page to play with someone else!"
       return;
     }
     this.buttonLabels[move.index] = move.sign
@@ -82,23 +81,21 @@ export class GameComponent implements OnInit, OnDestroy {
       return;
     }
     this.subscription.unsubscribe()
-    this.stompClient.disconnect(() => {
-      this.disableAll();
-      if (move.winningIndexes.length == 0) {
-        this.message = "IT IS A DRAW!"
-      } else if (move.nextPlayer != this.userId) {
-        this.message = "YOU WON!"
-        for (const element of move.winningIndexes) {
-          this.classTypes[element] = "winner";
-        }
-      } else {
-        this.message = "YOU LOST!"
-        for (const element of move.winningIndexes) {
-          this.classTypes[element] = "loser";
-        }
+    this.stompClient.forceDisconnect()
+    this.disableAll();
+    if (move.winningIndexes.length == 0) {
+      this.message = "IT IS A DRAW!"
+    } else if (move.nextPlayer != this.userId) {
+      this.message = "YOU WON!"
+      for (const element of move.winningIndexes) {
+        this.classTypes[element] = "winner";
       }
-    })
-
+    } else {
+      this.message = "YOU LOST!"
+      for (const element of move.winningIndexes) {
+        this.classTypes[element] = "loser";
+      }
+    }
   }
 
   private setupGameBoard() {
@@ -116,14 +113,14 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   clickGameSlot(buttonNum: number) {
-    this.stompClient.send(
-      '/app/requested-move/' + this.gameStartSetup.gameId,
-      {},
-      JSON.stringify({
-          playerId: this.userId,
-          index: buttonNum
-        }
-      )
+    this.stompClient.publish({
+        destination: '/app/requested-move/' +this.gameStartSetup.gameId,
+        body: JSON.stringify({
+            playerId: this.userId,
+            index: buttonNum
+          }
+        )
+      }
     )
   }
 

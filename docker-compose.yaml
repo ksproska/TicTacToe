@@ -9,16 +9,9 @@ services:
       SPRING_DATASOURCE_USERNAME: admin
       SPRING_DATASOURCE_PASSWORD: tictactoe2023!
       SPRING_DATASOURCE_URL: jdbc:mysql://database-1.cwcuuvfyrh3z.us-east-1.rds.amazonaws.com:3306/tictactoe
-    healthcheck:
-      test: [ "CMD", "curl", "http://localhost:8080/healthcheck" ]
-      interval: 2s
-      retries: 30
 
   frontend:
     container_name: frontend
     hostname: frontend
     image: ksproska/tictactoe-aws-frontend
     network_mode: "host"
-    depends_on:
-      backend:
-        condition: service_healthy

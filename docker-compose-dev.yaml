@@ -42,11 +42,14 @@ services:
   frontend:
     container_name: frontend
     hostname: frontend
-    build: frontend
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+      target: "frontend"
     networks:
       - priv-network
     ports:
-      - "4200:4200"
+      - "80:80"
     depends_on:
       backend:
         condition: service_healthy

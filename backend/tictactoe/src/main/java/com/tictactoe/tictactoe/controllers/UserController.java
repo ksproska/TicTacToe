@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200,http://0.0.0.0:4200")
+@CrossOrigin(origins = "http://localhost,http://0.0.0.0")
 @RestController
 public class UserController {
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);

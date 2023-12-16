@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200,http://0.0.0.0:4200")
+@CrossOrigin(origins = "http://localhost,http://0.0.0.0")
 @RestController
 public class UserScoreController {
     private final UserScoreService userScoreService;
