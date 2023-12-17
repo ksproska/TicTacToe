@@ -27,3 +27,4 @@ replay_pid*
 /backend/dev-db:tictactoe.mv.db
 /secret/
 .env
+/frontend/frontend.iml

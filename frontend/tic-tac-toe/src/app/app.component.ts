@@ -27,7 +27,8 @@ export class AppComponent {
     if (this.username != null) {
       authService.verify({
         userId: Number(localStorage.getItem(environment.LOCAL_STORAGE_USER_ID)),
-        username: String(localStorage.getItem(environment.LOCAL_STORAGE_USERNAME))
+        username: String(localStorage.getItem(environment.LOCAL_STORAGE_USERNAME)),
+        token: String(localStorage.getItem(environment.LOCAL_STORAGE_USER_TOKEN))
       }).subscribe((isUserOk: boolean) => {
         if(!isUserOk) {
           this.logOut()
@@ -40,6 +41,7 @@ export class AppComponent {
   logOut() {
     localStorage.removeItem(environment.LOCAL_STORAGE_USERNAME)
     localStorage.removeItem(environment.LOCAL_STORAGE_USER_ID)
+    localStorage.removeItem(environment.LOCAL_STORAGE_USER_TOKEN)
     this.username = this.getUsername();
   }
 

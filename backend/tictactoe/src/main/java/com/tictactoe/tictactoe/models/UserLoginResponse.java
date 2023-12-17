@@ -1,5 +1,6 @@
 package com.tictactoe.tictactoe.models;
 
 public record UserLoginResponse(
-        Long userId
+        Long userId,
+        String token
 ) {}

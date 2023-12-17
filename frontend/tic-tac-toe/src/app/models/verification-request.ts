@@ -1,4 +1,5 @@
 export interface VerificationRequest {
   userId: number,
-  username: string
+  username: string,
+  token: string
 }

@@ -42,6 +42,7 @@ export class LoginComponent {
       tap((response: any) => {
         localStorage.setItem(environment.LOCAL_STORAGE_USERNAME, this.username)
         localStorage.setItem(environment.LOCAL_STORAGE_USER_ID, response.userId)
+        localStorage.setItem(environment.LOCAL_STORAGE_USER_TOKEN, response.token)
         this.router.navigate(['/home']);
         this.parentComponent.setUsername();
       })).subscribe();
