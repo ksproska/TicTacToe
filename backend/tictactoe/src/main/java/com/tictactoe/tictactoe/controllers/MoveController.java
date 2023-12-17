@@ -17,7 +17,7 @@ import org.springframework.web.socket.messaging.SessionUnsubscribeEvent;
 
 import java.util.*;
 
-@CrossOrigin(origins = "http://localhost,http://0.0.0.0")
+@CrossOrigin(origins = "${app.api.settings.cross-origin.urls}")
 @Controller
 public class MoveController {
     private final GameService gameService;

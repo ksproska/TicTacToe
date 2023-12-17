@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin(origins = "http://localhost,http://0.0.0.0")
 @RestController
+@CrossOrigin(origins = "${app.api.settings.cross-origin.urls}")
 public class GameController {
     private final GameService gameService;
 

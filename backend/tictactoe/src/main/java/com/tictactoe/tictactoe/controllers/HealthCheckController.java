@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
-@CrossOrigin(origins = "http://localhost,http://0.0.0.0")
+@CrossOrigin(origins = "${app.api.settings.cross-origin.urls}")
 @Controller
 public class HealthCheckController {
     @GetMapping("/healthcheck")

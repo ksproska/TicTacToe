@@ -5,6 +5,7 @@ services:
     hostname: backend
     image: ksproska/tictactoe-aws-backend
     network_mode: "host"
+    env_file: .env
     environment:
       SPRING_DATASOURCE_USERNAME: admin
       SPRING_DATASOURCE_PASSWORD: tictactoe2023!
@@ -15,3 +16,4 @@ services:
     hostname: frontend
     image: ksproska/tictactoe-aws-frontend
     network_mode: "host"
+    env_file: .env

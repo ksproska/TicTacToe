@@ -1,18 +1,14 @@
 # TicTacToe
-## Starting backend and frontend
-Starting all services in [docker-compose.yaml](docker-compose.yaml).
+## Starting backend and frontend locally
+Starting all services in [docker-compose-dev.yaml](docker-compose-dev.yaml).
 ```bash
-docker compose up -d --build
+make start-dev
 ```
-Populating database:
-```bash
-make populate-db
-```
-Main page is available under [http://localhost:4200/home](http://localhost:4200/home).
+Main page is available under [http://localhost/home](http://localhost/home).
 
 Stopping all services:
 ```bash
-docker compose down
+make stop-dev
 ```
 
 ### Images on docker hub:
@@ -29,7 +25,7 @@ docker compose down
 2. ~~Utwórz plik Dockerfile dla frontendu i backendu.~~
 3. ~~Utwórz plik docker-compose.yml dla konfiguracji całego środowiska.~~
 4. Skonfiguruj VPC (Virtual Private Cloud) i ustal reguły bezpieczeństwa.
-5. Wdróż aplikację za pomocą EC2 lub AWS Fargate.
+5. ~~Wdróż aplikację za pomocą EC2 lub AWS Fargate.~~
 6. Opisz cały proces w instrukcji
 
 ## Użyteczne linki:
@@ -47,5 +43,5 @@ docker compose down
 ## YouTube
 - [How to integrate Java Spring Boot application with AWS Cognito using OIDC?](https://www.youtube.com/watch?v=o2IM9oI6Eqk)
 - ~~[AWS RDS with Spring Boot - A Step-By-Step Guide @ashokit](https://www.youtube.com/watch?v=GSu1g9jvFhY)~~
-- [Deploy Spring boot application to AWS Cloud](https://www.youtube.com/watch?v=ua0cb2LjCW4)
+- ~~[Deploy Spring boot application to AWS Cloud](https://www.youtube.com/watch?v=ua0cb2LjCW4)~~
 - [How to Easily Deploy a Spring Boot Application to AWS EC2](https://www.youtube.com/watch?v=_vOInY6SRVE)
