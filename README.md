@@ -1,32 +1,146 @@
 # TicTacToe
-## Starting backend and frontend locally
-Starting all services in [docker-compose-dev.yaml](docker-compose-dev.yaml).
-```bash
-make start-dev
+## AWS Cloud preparation
+### Required files for run
+```text
+├── Makefile
+├── docker-compose.yaml
+├── domain.env
+├── aws-credentials.env
+├── db.env
+└── secret
+    └── tictactoe-key-pair.pem
 ```
-Main page is available under [http://localhost/home](http://localhost/home).
+[Makefile](Makefile) and [docker-compose.yaml](docker-compose.yaml) are provided by this repository.
+Env files `db.env` and `aws-credentials.env` must be created manually.
+Certificate `secret/tictactoe-key-pair.pem` must be downloaded from AWS.
+Env file `domain.env` will be created during `make send-docker-compose-and-env-file-to-lab` command run
 
-Stopping all services:
-```bash
-make stop-dev
+1. Provide `db.env` file containing envs specifying database connection:
+   ```dotenv
+   SPRING_DATASOURCE_USERNAME=???
+   SPRING_DATASOURCE_PASSWORD=???
+   SPRING_DATASOURCE_URL=jdbc:mysql://???:3306/tictactoe
+   ```
+   The values can be found in RDS details:
+   
+   ![rds_datasource.png](images/rds_datasource.png)
+   
+   ![rds_username_password.png](images/rds_username_password.png)
+   
+   Those credentials are static (they do not change).
+
+2. Provide `secret/tictactoe-key-pair.pem` certificate necessary in order to connect to EC2 instance via ssh.
+
+   ![ec2-key-pair.png](images/ec2-key-pair.png)
+
+3. Provide `aws-credentials.env` file containing envs specifying aws credentials:
+   ```dotenv
+   AMAZON_COGNITO_ACCESS_KEY=???
+   AMAZON_COGNITO_SECRET_KEY=???
+   AMAZON_COGNITO_SESSION_TOKEN=???
+   ```
+   
+   They can be found on lab CLI in file `~/.aws/credentials`:
+   
+   ![aws_credentials.png](images/aws_credentials.png)
+   
+   **Those credentials change from time to time therefore before running check if they are still valid.**
+
+### Connecting to EC2
+Go to your EC2 instance and copy domain name:
+
+![ec2_domain_name.png](images/ec2_domain_name.png)
+
+Then run `make connect-to-aws domain_name=???` where `???` represents copied domain name.
+
+For example:
+```text
+make connect-to-aws domain_name=ec2-54-80-196-162.compute-1.amazonaws.com
+```
+Returned:
+```text
+curl ec2-54-80-196-162.compute-1.amazonaws.com:8080/healthcheck
+Service healthy
+ssh -i ./secret/tictactoe-key-pair.pem ec2-user@ec2-54-80-196-162.compute-1.amazonaws.com
+   ,     #_
+   ~\_  ####_        Amazon Linux 2023
+  ~~  \_#####\
+  ~~     \###|
+  ~~       \#/ ___   https://aws.amazon.com/linux/amazon-linux-2023
+   ~~       V~' '->
+    ~~~         /
+      ~~._.   _/
+         _/ _/
+       _/m/'
+Last login: Mon Dec 18 14:35:33 2023 from 185.122.144.226
+[ec2-user@ip-172-31-47-206 ~]$ 
+```
+Now you are connected to EC2 instance via ssh.
+
+### Installing docker and docker-compose on EC2
+After connecting to lab run commands from [ec2_setup.sh](ec2_setup.sh). \
+Afterward run `docker --version` and `docker compose version` to verify that installation was correct.
+
+### Placing required files on lab
+In separate terminal run `make send-docker-compose-and-env-file-to-lab domain_name=???` where `???` represents previously copied domain name.
+
+For example:
+```text
+make send-docker-compose-and-env-file-to-lab domain_name=ec2-54-80-196-162.compute-1.amazonaws.com
+```
+Returned:
+```text
+curl ec2-54-80-196-162.compute-1.amazonaws.com:8080/healthcheck
+Service healthy
+rm -f domain.env
+echo "BASE_URL=http://ec2-54-80-196-162.compute-1.amazonaws.com:8080/" >> domain.env
+echo "APP_API_SETTINGS_CROSS_ORIGIN_URLS=http://ec2-54-80-196-162.compute-1.amazonaws.com" >> domain.env
+echo "BASE_WEBSOCKET=ws://ec2-54-80-196-162.compute-1.amazonaws.com:8080/websocket/" >> domain.env
+scp -i ./secret/tictactoe-key-pair.pem ./*.env ec2-user@ec2-54-80-196-162.compute-1.amazonaws.com:/home/ec2-user/
+aws-credentials.env                                                                                                                          100%  508     2.6KB/s   00:00    
+db.env                                                                                                                                       100%  180     0.9KB/s   00:00    
+domain.env                                                                                                                                   100%  226     1.1KB/s   00:00    
+scp -i ./secret/tictactoe-key-pair.pem ./docker-compose.yaml ec2-user@ec2-54-80-196-162.compute-1.amazonaws.com:/home/ec2-user/
+docker-compose.yaml                                                                                                                          100%  381     1.8KB/s   00:00    
+```
+Then on ec2 check if all files where copied:
+```text
+ls -l
+```
+```text
+total 16
+-rw-rw-r--. 1 ec2-user ec2-user 508 Dec 18 14:48 aws-credentials.env
+-rw-rw-r--. 1 ec2-user ec2-user 180 Dec 18 14:48 db.env
+-rw-rw-r--. 1 ec2-user ec2-user 381 Dec 18 14:48 docker-compose.yaml
+-rw-rw-r--. 1 ec2-user ec2-user 226 Dec 18 14:48 domain.env
+```
+And check if `domain.env` has correct domain name set up:
+```text
+cat domain.env
+```
+```text
+BASE_URL=http://ec2-54-80-196-162.compute-1.amazonaws.com:8080/
+APP_API_SETTINGS_CROSS_ORIGIN_URLS=http://ec2-54-80-196-162.compute-1.amazonaws.com
+BASE_WEBSOCKET=ws://ec2-54-80-196-162.compute-1.amazonaws.com:8080/websocket/
 ```
 
-### Images on docker hub:
-- [ksproska/tictactoe-aws-backend](https://hub.docker.com/repository/docker/ksproska/tictactoe-aws-backend/general)
-- [ksproska/tictactoe-aws-frontend](https://hub.docker.com/repository/docker/ksproska/tictactoe-aws-frontend/general)
+### Running docker compose
+To start backend and frontend on EC2 run `docker compose up -d`. Open website using domain name, example: http://ec2-54-80-196-162.compute-1.amazonaws.com
 
 --------
 ## Założenia zadania
-1. ~~Stwórz aplikację webową do gry w kółko i krzyżyk (3x3)~~, aplikacja powinna umożliwiać:
+1. Stwórz aplikację webową do gry w kółko i krzyżyk (3x3), aplikacja powinna umożliwiać:
    1. Autentykację z wykorzystaniem AWS Cognito. 
-   2. ~~Grę z losowym przeciwnikiem~~
-   3. Podejrzenie globalnej listy graczy wraz z ich wynikami 
-   4. ~~Aplikacja powinna być zintegrowana z relacyjną bazą danych (Amazon RDS)~~
-2. ~~Utwórz plik Dockerfile dla frontendu i backendu.~~
-3. ~~Utwórz plik docker-compose.yml dla konfiguracji całego środowiska.~~
+   2. Grę z losowym przeciwnikiem
+   3. Podejrzenie globalnej listy graczy wraz z ich wynikami
+   4. Aplikacja powinna być zintegrowana z relacyjną bazą danych (Amazon RDS)
+2. Utwórz plik Dockerfile dla frontendu i backendu.
+3. Utwórz plik docker-compose.yml dla konfiguracji całego środowiska.
 4. Skonfiguruj VPC (Virtual Private Cloud) i ustal reguły bezpieczeństwa.
-5. ~~Wdróż aplikację za pomocą EC2 lub AWS Fargate.~~
+5. Wdróż aplikację za pomocą EC2 lub AWS Fargate.
 6. Opisz cały proces w instrukcji
+
+----------------------------------
 
 ## Użyteczne linki:
 - https://aws.amazon.com/codecommit/
@@ -42,6 +156,6 @@ make stop-dev
 
 ## YouTube
 - [How to integrate Java Spring Boot application with AWS Cognito using OIDC?](https://www.youtube.com/watch?v=o2IM9oI6Eqk)
-- ~~[AWS RDS with Spring Boot - A Step-By-Step Guide @ashokit](https://www.youtube.com/watch?v=GSu1g9jvFhY)~~
-- ~~[Deploy Spring boot application to AWS Cloud](https://www.youtube.com/watch?v=ua0cb2LjCW4)~~
+- [AWS RDS with Spring Boot - A Step-By-Step Guide @ashokit](https://www.youtube.com/watch?v=GSu1g9jvFhY)
+- [Deploy Spring boot application to AWS Cloud](https://www.youtube.com/watch?v=ua0cb2LjCW4)
 - [How to Easily Deploy a Spring Boot Application to AWS EC2](https://www.youtube.com/watch?v=_vOInY6SRVE)
