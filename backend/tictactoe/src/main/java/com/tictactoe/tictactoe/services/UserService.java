@@ -9,6 +9,7 @@ import com.tictactoe.tictactoe.models.entities.User;
 import com.tictactoe.tictactoe.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.NotAuthorizedException;
 
 @Service
 public class UserService {
@@ -28,7 +29,7 @@ public class UserService {
                     throw new IllegalArgumentException("User with username " + userCreateRequest.username() + " already exists");
                 }
         );
-        var user = userRepository.save(new User(userCreateRequest.username(), userCreateRequest.password()));
+        var user = userRepository.save(new User(userCreateRequest.username()));
         return new UserLoginResponse(user.getId(), accessToken);
     }
 
@@ -36,16 +37,18 @@ public class UserService {
         var accessToken = cognitoApi.logInInCognito(request);
         User userDetails = userRepository
                 .findByUsername(request.username())
-                .orElseThrow(() -> new IllegalArgumentException("No user of name '" + request.username() + "' found."));
-        if (!userDetails.getPassword().equals(request.password())) {
-            throw new IllegalStateException("Incorrect password.");
-        }
+                .orElseThrow(() -> new IllegalArgumentException("No user of name '" + request.username() + "' found in database."));
         return new UserLoginResponse(userDetails.getId(), accessToken);
     }
 
     public boolean verify(UserVerificationRequest userVerificationRequest) {
         String accessToken = userVerificationRequest.token();
-        var username = cognitoApi.getUsernameForToken(accessToken);
+        String username;
+        try {
+            username = cognitoApi.getUsernameForToken(accessToken);
+        } catch (NotAuthorizedException e) {
+            return false;
+        }
         if (!username.equals(userVerificationRequest.username())) return false;
         return userRepository
                 .findByUsername(userVerificationRequest.username())

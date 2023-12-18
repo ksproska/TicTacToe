@@ -36,7 +36,7 @@ export class LoginComponent {
       password: this.password
     }).pipe(
       catchError(error => {
-        this.errorMessage = "login did not succeed"
+        this.errorMessage = error.error
         throw error
       }),
       tap((response: any) => {

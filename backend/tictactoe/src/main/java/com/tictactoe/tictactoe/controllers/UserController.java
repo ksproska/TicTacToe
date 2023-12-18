@@ -1,7 +1,6 @@
 package com.tictactoe.tictactoe.controllers;
 
 import com.tictactoe.tictactoe.models.UserLoginRequest;
-import com.tictactoe.tictactoe.models.UserLoginResponse;
 import com.tictactoe.tictactoe.models.UserCreateRequest;
 import com.tictactoe.tictactoe.models.UserVerificationRequest;
 import com.tictactoe.tictactoe.services.UserService;
@@ -12,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @CrossOrigin(origins = "${app.api.settings.cross-origin.urls}")
 @RestController
@@ -30,28 +28,24 @@ public class UserController {
     public ResponseEntity signup(@RequestBody UserCreateRequest userCreateRequest) {
         try {
             return ResponseEntity.ok(userService.signUp(userCreateRequest));
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             LOG.error(e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<UserLoginResponse> authenticate(@RequestBody @Valid UserLoginRequest request) {
-        return ResponseEntity.ok(userService.authenticate(request));
+    public ResponseEntity authenticate(@RequestBody @Valid UserLoginRequest request) {
+        try {
+            return ResponseEntity.ok(userService.authenticate(request));
+        } catch (Exception e) {
+            LOG.error(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PostMapping("/verify")
     public ResponseEntity<Boolean> verify(@RequestBody UserVerificationRequest userVerificationRequest) {
         return ResponseEntity.ok(userService.verify(userVerificationRequest));
-    }
-
-    @GetMapping("/list-active-user-nicks")
-    @ResponseBody
-    public List<String> listActiveUserNicks() {
-        return List.of(
-                "this endpoint is not yet implemented",
-                "but backend works"
-        );
     }
 }

@@ -25,6 +25,10 @@ replay_pid*
 
 .idea
 /backend/dev-db:tictactoe.mv.db
-/secret/
-.env
 /frontend/frontend.iml
+
+# AWS config files
+/secret/
+domain.env
+aws-credentials.env
+db.env

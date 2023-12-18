@@ -1,7 +1,5 @@
 import { Routes } from '@angular/router';
-import {HomeComponent} from "./components/home/home.component";
 import {LoginComponent} from "./components/login/login.component";
-import {ActiveUserNicksResolver} from "./resolvers/active-user-nicks.resolver";
 import {GlobalUsersScoresComponent} from "./components/global-users-scores/global-users-scores.component";
 import {UsersScoresResolver} from "./resolvers/users-scores.resolver";
 import {GameComponent} from "./components/game/game.component";
@@ -16,9 +14,9 @@ export const routes: Routes = [
   },
   {
     path: "home",
-    component: HomeComponent,
+    component: GlobalUsersScoresComponent,
     resolve: {
-      activeUserNicks: ActiveUserNicksResolver
+      usersScores: UsersScoresResolver
     }
   },
   {
@@ -35,12 +33,5 @@ export const routes: Routes = [
   {
     path: "signup",
     component: SignupComponent
-  },
-  {
-    path: "scores",
-    component: GlobalUsersScoresComponent,
-    resolve: {
-      usersScores: UsersScoresResolver
-    }
   }
 ];

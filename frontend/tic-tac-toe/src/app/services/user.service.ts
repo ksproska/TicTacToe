@@ -9,9 +9,6 @@ import {UserScores} from "../models/user-scores";
 export class UserService {
   constructor(private readonly http: HttpClient) {
   }
-  getAllActiveUsers(): Observable<string[]> {
-    return this.http.get<string[]>("list-active-user-nicks");
-  }
 
   getAllUsersScores(): Observable<UserScores[]> {
     return this.http.get<UserScores[]>("list-users-scores");

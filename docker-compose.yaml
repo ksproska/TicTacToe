@@ -5,15 +5,14 @@ services:
     hostname: backend
     image: ksproska/tictactoe-aws-backend
     network_mode: "host"
-    env_file: .env
-    environment:
-      SPRING_DATASOURCE_USERNAME: admin
-      SPRING_DATASOURCE_PASSWORD: tictactoe2023!
-      SPRING_DATASOURCE_URL: jdbc:mysql://database-1.cwcuuvfyrh3z.us-east-1.rds.amazonaws.com:3306/tictactoe
+    env_file:
+    - domain.env
+    - aws-credentials.env
+    - db.env
 
   frontend:
     container_name: frontend
     hostname: frontend
     image: ksproska/tictactoe-aws-frontend
     network_mode: "host"
-    env_file: .env
+    env_file: domain.env

@@ -1,8 +1,8 @@
 define create-env-file
-rm -f .env
-echo "BASE_URL=http://${1}:8080/" >> .env
-echo "APP_API_SETTINGS_CROSS_ORIGIN_URLS=http://${1}" >> .env
-echo "BASE_WEBSOCKET=ws://${1}:8080/websocket/" >> .env
+rm -f domain.env
+echo "BASE_URL=http://${1}:8080/" >> domain.env
+echo "APP_API_SETTINGS_CROSS_ORIGIN_URLS=http://${1}" >> domain.env
+echo "BASE_WEBSOCKET=ws://${1}:8080/websocket/" >> domain.env
 endef
 
 start-dev:
@@ -25,16 +25,20 @@ push-images: build-images
 
 start: build-images
 	$(call create-env-file,localhost)
-	docker compose up -d --build
+	docker compose up -d
 
 stop:
 	docker compose down
 
-#domain_name = ec2-107-23-169-11.compute-1.amazonaws.com
-connect-to-aws:
+#domain_name = ec2-54-80-196-162.compute-1.amazonaws.com
+test-if-domain-exists:
+	curl $(domain_name):8080/healthcheck
+	@echo
+
+connect-to-aws: test-if-domain-exists
 	ssh -i ./secret/tictactoe-key-pair.pem ec2-user@$(domain_name)
 
-send-docker-compose-and-env-file-to-lab:
+send-docker-compose-and-env-file-to-lab: test-if-domain-exists
 	$(call create-env-file,$(domain_name))
-	scp -i ./secret/tictactoe-key-pair.pem ./.env ec2-user@$(domain_name):/home/ec2-user/
+	scp -i ./secret/tictactoe-key-pair.pem ./*.env ec2-user@$(domain_name):/home/ec2-user/
 	scp -i ./secret/tictactoe-key-pair.pem ./docker-compose.yaml ec2-user@$(domain_name):/home/ec2-user/

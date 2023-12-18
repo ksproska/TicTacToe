@@ -24,12 +24,7 @@ public class User {
     @Column(unique = true, nullable = false)
     private String username;
 
-    @NotNull
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String password;
-
-    public User(String username, String password) {
+    public User(String username) {
         this.username = username;
-        this.password = password;
     }
 }

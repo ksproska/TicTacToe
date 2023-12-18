@@ -2,6 +2,8 @@ package com.tictactoe.tictactoe.configs;
 
 import com.tictactoe.tictactoe.models.UserCreateRequest;
 import com.tictactoe.tictactoe.models.UserLoginRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -12,6 +14,7 @@ import java.util.Map;
 
 @Component
 public class CognitoApi {
+    private static final Logger LOG = LoggerFactory.getLogger(CognitoApi.class);
     @Value("${amazon.cognito.client-id}")
     private String clientId;
 
@@ -34,24 +37,28 @@ public class CognitoApi {
         String username = userCreateRequest.username();
         String secretHash = secretHashCalculator.calculateSecretHash(username, clientId);
         String password = userCreateRequest.password();
-        cognitoClient.signUp(
-                SignUpRequest
-                        .builder()
-                        .clientId(clientId)
-                        .secretHash(secretHash)
-                        .username(username)
-                        .password(password)
-                        .build()
-        );
-        cognitoClient.adminSetUserPassword(
-                AdminSetUserPasswordRequest
-                        .builder()
-                        .userPoolId(userPoolId)
-                        .username(username)
-                        .password(password)
-                        .permanent(true)
-                        .build()
-        );
+        try {
+            cognitoClient.adminCreateUser(
+                    AdminCreateUserRequest
+                            .builder()
+                            .userPoolId(userPoolId)
+                            .username(username)
+                            .temporaryPassword(password)
+                            .build()
+            );
+            cognitoClient.adminSetUserPassword(
+                    AdminSetUserPasswordRequest
+                            .builder()
+                            .userPoolId(userPoolId)
+                            .username(username)
+                            .password(password)
+                            .permanent(true)
+                            .build()
+            );
+        } catch (CognitoIdentityProviderException e) {
+            LOG.error(e.getMessage());
+            throw new IllegalStateException("Issues with service, try again later.");
+        }
         return initiateAuth(username, password, secretHash);
     }
 

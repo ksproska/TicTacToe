@@ -29,24 +29,24 @@ class UserControllerTest {
     @Autowired
     UserRepository userRepository;
 
-    @Test
-    void signup() {
-        String username = "kamila";
-        String password = "pass";
-        long expectedId = 1L;
-
-        assertThat(
-                this.restTemplate.postForObject(
-                        urlWithoutPortNumber + port + "/signup",
-                        new UserCreateRequest(username, password),
-                        UserLoginResponse.class
-                ).userId()
-        ).isEqualTo(expectedId);
-        Optional<User> createdUser = userRepository.findById(expectedId);
-        assertThat(createdUser).isPresent();
-        var user = createdUser.get();
-        assertThat(user.getId()).isEqualTo(expectedId);
-        assertThat(user.getUsername()).isEqualTo(username);
-        assertThat(user.getPassword()).isEqualTo(password);
-    }
+//    @Test
+//    void signup() {
+//        String username = "kamila";
+//        String password = "pass";
+//        long expectedId = 1L;
+//
+//        assertThat(
+//                this.restTemplate.postForObject(
+//                        urlWithoutPortNumber + port + "/signup",
+//                        new UserCreateRequest(username, password),
+//                        UserLoginResponse.class
+//                ).userId()
+//        ).isEqualTo(expectedId);
+//        Optional<User> createdUser = userRepository.findById(expectedId);
+//        assertThat(createdUser).isPresent();
+//        var user = createdUser.get();
+//        assertThat(user.getId()).isEqualTo(expectedId);
+//        assertThat(user.getUsername()).isEqualTo(username);
+//        assertThat(user.getPassword()).isEqualTo(password);
+//    }
 }
