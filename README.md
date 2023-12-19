@@ -1,6 +1,9 @@
 # TicTacToe
 ## AWS Cloud preparation
-### Required files for run
+### Overall architecture
+![architecture.png](images/architecture.drawio.png)
+
+### Required files for setup on EC2
 ```text
 ├── Makefile
 ├── docker-compose.yaml
@@ -10,12 +13,13 @@
 └── secret
     └── tictactoe-key-pair.pem
 ```
-[Makefile](Makefile) and [docker-compose.yaml](docker-compose.yaml) are provided by this repository.
-Env files `db.env` and `aws-credentials.env` must be created manually.
-Certificate `secret/tictactoe-key-pair.pem` must be downloaded from AWS.
-Env file `domain.env` will be created during `make send-docker-compose-and-env-file-to-lab` command run
+[Makefile](Makefile) and [docker-compose.yaml](docker-compose.yaml) are provided by this repository. \
+Env files `db.env` and `aws-credentials.env` must be created manually. \
+Certificate `secret/tictactoe-key-pair.pem` must be downloaded from AWS. \
+Env file `domain.env` will be created during `make send-docker-compose-and-env-file-to-lab` command run.
 
-1. Provide `db.env` file containing envs specifying database connection:
+#### Creating / downloading required files
+1. Create `db.env` file containing envs specifying database connection:
    ```dotenv
    SPRING_DATASOURCE_USERNAME=???
    SPRING_DATASOURCE_PASSWORD=???
@@ -30,10 +34,11 @@ Env file `domain.env` will be created during `make send-docker-compose-and-env-f
    Those credentials are static (they do not change).
 
 2. Provide `secret/tictactoe-key-pair.pem` certificate necessary in order to connect to EC2 instance via ssh.
+   It can be downloaded from AWS.
 
    ![ec2-key-pair.png](images/ec2-key-pair.png)
 
-3. Provide `aws-credentials.env` file containing envs specifying aws credentials:
+3. Create `aws-credentials.env` file containing envs specifying aws credentials:
    ```dotenv
    AMAZON_COGNITO_ACCESS_KEY=???
    AMAZON_COGNITO_SECRET_KEY=???
@@ -103,7 +108,7 @@ domain.env                                                                      
 scp -i ./secret/tictactoe-key-pair.pem ./docker-compose.yaml ec2-user@ec2-54-80-196-162.compute-1.amazonaws.com:/home/ec2-user/
 docker-compose.yaml                                                                                                                          100%  381     1.8KB/s   00:00    
 ```
-Then on ec2 check if all files where copied:
+Then on EC2 check if all files where copied:
 ```text
 ls -l
 ```
@@ -125,7 +130,8 @@ BASE_WEBSOCKET=ws://ec2-54-80-196-162.compute-1.amazonaws.com:8080/websocket/
 ```
 
 ### Running docker compose
-To start backend and frontend on EC2 run `docker compose up -d`. Open website using domain name, example: http://ec2-54-80-196-162.compute-1.amazonaws.com
+To start backend and frontend on EC2 run `docker compose up -d`. \
+Open website using domain name, example: `http://ec2-54-80-196-162.compute-1.amazonaws.com`
 
 --------
 ## Założenia zadania
