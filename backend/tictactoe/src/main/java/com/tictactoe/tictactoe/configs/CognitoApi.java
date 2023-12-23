@@ -6,14 +6,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.*;
 
 import java.util.Map;
 
+@Profile("!dev")
 @Component
-public class CognitoApi {
+public class CognitoApi implements AuthenticationApi {
     private static final Logger LOG = LoggerFactory.getLogger(CognitoApi.class);
     @Value("${amazon.cognito.client-id}")
     private String clientId;
@@ -33,6 +35,7 @@ public class CognitoApi {
         this.cognitoClient = cognitoIdentityProviderClient;
     }
 
+    @Override
     public String signUpToCognito(UserCreateRequest userCreateRequest) {
         String username = userCreateRequest.username();
         String secretHash = secretHashCalculator.calculateSecretHash(username, clientId);
@@ -62,6 +65,7 @@ public class CognitoApi {
         return initiateAuth(username, password, secretHash);
     }
 
+    @Override
     public String logInInCognito(UserLoginRequest request) {
         String username = request.username();
         String password = request.password();
@@ -84,6 +88,7 @@ public class CognitoApi {
                 .accessToken();
     }
 
+    @Override
     public String getUsernameForToken(String token) {
         return cognitoClient
                 .getUser(

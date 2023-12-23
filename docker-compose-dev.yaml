@@ -26,7 +26,12 @@ services:
       dockerfile: Dockerfile
       target: "backend"
     environment:
+      SPRING_PROFILES_ACTIVE: dev
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/tictactoe?allowPublicKeyRetrieval=true&autoReconnect=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: mysql
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+      APP_API_SETTINGS_CROSS_ORIGIN_URLS: http://localhost,http://0.0.0.0,http://frontend
     networks:
       - priv-network
     ports:
@@ -50,6 +55,10 @@ services:
       - priv-network
     ports:
       - "80:80"
+    environment:
+      BASE_URL: http://localhost:8080/
+      APP_API_SETTINGS_CROSS_ORIGIN_URLS: http://localhost
+      BASE_WEBSOCKET: ws://localhost:8080/websocket
     depends_on:
       backend:
         condition: service_healthy

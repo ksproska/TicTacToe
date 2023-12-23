@@ -1,6 +1,6 @@
 package com.tictactoe.tictactoe.services;
 
-import com.tictactoe.tictactoe.configs.CognitoApi;
+import com.tictactoe.tictactoe.configs.AuthenticationApi;
 import com.tictactoe.tictactoe.models.UserCreateRequest;
 import com.tictactoe.tictactoe.models.UserLoginRequest;
 import com.tictactoe.tictactoe.models.UserLoginResponse;
@@ -14,16 +14,17 @@ import software.amazon.awssdk.services.cognitoidentityprovider.model.NotAuthoriz
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final CognitoApi cognitoApi;
+    private final AuthenticationApi authenticationApi;
+
 
     @Autowired
-    public UserService(UserRepository userRepository, CognitoApi cognitoApi) {
+    public UserService(UserRepository userRepository, AuthenticationApi authenticationApi) {
         this.userRepository = userRepository;
-        this.cognitoApi = cognitoApi;
+        this.authenticationApi = authenticationApi;
     }
 
     public UserLoginResponse signUp(UserCreateRequest userCreateRequest) {
-        var accessToken = cognitoApi.signUpToCognito(userCreateRequest);
+        var accessToken = authenticationApi.signUpToCognito(userCreateRequest);
         userRepository.findByUsername(userCreateRequest.username()).ifPresent(
                 user -> {
                     throw new IllegalArgumentException("User with username " + userCreateRequest.username() + " already exists");
@@ -34,7 +35,7 @@ public class UserService {
     }
 
     public UserLoginResponse authenticate(UserLoginRequest request) {
-        var accessToken = cognitoApi.logInInCognito(request);
+        var accessToken = authenticationApi.logInInCognito(request);
         User userDetails = userRepository
                 .findByUsername(request.username())
                 .orElseThrow(() -> new IllegalArgumentException("No user of name '" + request.username() + "' found in database."));
@@ -45,7 +46,7 @@ public class UserService {
         String accessToken = userVerificationRequest.token();
         String username;
         try {
-            username = cognitoApi.getUsernameForToken(accessToken);
+            username = authenticationApi.getUsernameForToken(accessToken);
         } catch (NotAuthorizedException e) {
             return false;
         }
