@@ -1,7 +1,7 @@
 package com.tictactoe.tictactoe.controllers;
 
+import com.tictactoe.tictactoe.models.GameRequest;
 import com.tictactoe.tictactoe.models.GameStartSetup;
-import com.tictactoe.tictactoe.models.entities.User;
 import com.tictactoe.tictactoe.services.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +25,8 @@ public class GameSetupController {
     }
 
     @PutMapping("/get-game")
-    public ResponseEntity<GameStartSetup> getGame(@RequestBody User player) {
-        var game = gameService.getGameByPlayerId(player.getId());
+    public ResponseEntity<GameStartSetup> getGame(@RequestBody GameRequest gameRequest) {
+        var game = gameService.getGameByPlayerId(gameRequest);
         game.getFirstMoveForPlayer2LateAssigment()
                 .ifPresent(
                         move -> this.simpMessagingTemplate.convertAndSend(
@@ -34,6 +34,6 @@ public class GameSetupController {
                                 move
                         )
                 );
-        return ResponseEntity.ok(game.getGameStartSetup(player.getId()));
+        return ResponseEntity.ok(game.getGameStartSetup(gameRequest.userId()));
     }
 }

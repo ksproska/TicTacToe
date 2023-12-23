@@ -12,13 +12,13 @@ import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.NotAuthorizedException;
 
 @Service
-public class UserService {
+public class UserAuthenticationService {
     private final UserRepository userRepository;
     private final AuthenticationApi authenticationApi;
 
 
     @Autowired
-    public UserService(UserRepository userRepository, AuthenticationApi authenticationApi) {
+    public UserAuthenticationService(UserRepository userRepository, AuthenticationApi authenticationApi) {
         this.userRepository = userRepository;
         this.authenticationApi = authenticationApi;
     }
