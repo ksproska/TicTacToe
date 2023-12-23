@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin(origins = "${app.api.settings.cross-origin.urls}")
-public class GameController {
+public class GameSetupController {
     private final GameService gameService;
 
     private final SimpMessagingTemplate simpMessagingTemplate;
 
     @Autowired
-    public GameController(GameService gameService, SimpMessagingTemplate simpMessagingTemplate) {
+    public GameSetupController(GameService gameService, SimpMessagingTemplate simpMessagingTemplate) {
         this.gameService = gameService;
         this.simpMessagingTemplate = simpMessagingTemplate;
     }

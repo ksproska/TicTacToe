@@ -1,5 +1,6 @@
-package com.tictactoe.tictactoe.configs;
+package com.tictactoe.tictactoe.api;
 
+import com.tictactoe.tictactoe.configs.SecretHashCalculator;
 import com.tictactoe.tictactoe.models.UserCreateRequest;
 import com.tictactoe.tictactoe.models.UserLoginRequest;
 import org.slf4j.Logger;

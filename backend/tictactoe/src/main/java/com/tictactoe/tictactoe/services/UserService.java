@@ -1,6 +1,6 @@
 package com.tictactoe.tictactoe.services;
 
-import com.tictactoe.tictactoe.configs.AuthenticationApi;
+import com.tictactoe.tictactoe.api.AuthenticationApi;
 import com.tictactoe.tictactoe.models.UserCreateRequest;
 import com.tictactoe.tictactoe.models.UserLoginRequest;
 import com.tictactoe.tictactoe.models.UserLoginResponse;

@@ -14,13 +14,13 @@ import javax.validation.Valid;
 
 @CrossOrigin(origins = "${app.api.settings.cross-origin.urls}")
 @RestController
-public class UserController {
-    private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
+public class AuthenticationController {
+    private static final Logger LOG = LoggerFactory.getLogger(AuthenticationController.class);
 
     private final UserService userService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public AuthenticationController(UserService userService) {
         this.userService = userService;
     }
 

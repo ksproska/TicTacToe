@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @CrossOrigin(origins = "${app.api.settings.cross-origin.urls}")
 @Controller
-public class MoveController {
+public class WebsocketMoveController {
     private final GameService gameService;
     private final GameScoreService gameScoreService;
     private final SimpMessagingTemplate simpMessagingTemplate;
 
-    public MoveController(GameService gameService, GameScoreService gameScoreService, SimpMessagingTemplate simpMessagingTemplate) {
+    public WebsocketMoveController(GameService gameService, GameScoreService gameScoreService, SimpMessagingTemplate simpMessagingTemplate) {
         this.gameService = gameService;
         this.gameScoreService = gameScoreService;
         this.simpMessagingTemplate = simpMessagingTemplate;
