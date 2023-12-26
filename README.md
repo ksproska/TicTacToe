@@ -1,5 +1,5 @@
 # TicTacToe
-## AWS Cloud preparation
+## Project 1
 ### Overall architecture
 ![architecture.png](images/architecture.drawio.png)
 
@@ -133,8 +133,9 @@ BASE_WEBSOCKET=ws://ec2-54-80-196-162.compute-1.amazonaws.com:8080/websocket/
 To start backend and frontend on EC2 run `docker compose up -d`. \
 Open website using domain name, example: `http://ec2-54-80-196-162.compute-1.amazonaws.com`
 
---------
-## Założenia zadania
+------------------------------------------------------------------------------------------------------------------------
+## Projekty opisy założeń
+### Projekt 1 (10 pkt)
 1. Stwórz aplikację webową do gry w kółko i krzyżyk (3x3), aplikacja powinna umożliwiać:
    1. Autentykację z wykorzystaniem AWS Cognito. 
    2. Grę z losowym przeciwnikiem
@@ -146,9 +147,7 @@ Open website using domain name, example: `http://ec2-54-80-196-162.compute-1.ama
 5. Wdróż aplikację za pomocą EC2 lub AWS Fargate.
 6. Opisz cały proces w instrukcji
 
-----------------------------------
-
-## Użyteczne linki:
+#### Użyteczne linki:
 - https://aws.amazon.com/codecommit/
 - https://aws.amazon.com/pm/cognito/
 - https://aws.amazon.com/rds/
@@ -160,8 +159,23 @@ Open website using domain name, example: `http://ec2-54-80-196-162.compute-1.ama
 - https://richygreat.medium.com/create-virtual-private-cloud-vpc-in-aws-step-4-e303f21f48e8
 - https://jrakibi.medium.com/deploy-your-application-with-ec2-docker-spring-boot-using-aws-clicb9f81260d29
 
-## YouTube
+#### YouTube
 - [How to integrate Java Spring Boot application with AWS Cognito using OIDC?](https://www.youtube.com/watch?v=o2IM9oI6Eqk)
 - [AWS RDS with Spring Boot - A Step-By-Step Guide @ashokit](https://www.youtube.com/watch?v=GSu1g9jvFhY)
 - [Deploy Spring boot application to AWS Cloud](https://www.youtube.com/watch?v=ua0cb2LjCW4)
 - [How to Easily Deploy a Spring Boot Application to AWS EC2](https://www.youtube.com/watch?v=_vOInY6SRVE)
+
+### Projekt 2 (10 pkt)
+1. Uruchom stworzoną aplikację z użyciem Beanstalk
+2. Utwórz konfigurację dla Cloudwatch, a następnie zdefiniuj własny alarm
+3. Utwórz konfigurację dla CloudTrail oraz sprawdź historię eventów
+4. Wykorzystaj AWS Inspector w swojej aplikacji
+
+#### Użyteczne linki:
+https://aws.amazon.com/blogs/devops/deploying-a-spring-boot-application-on-aws-using-aws-elasticbeanstalk/
+https://aws.plainenglish.io/deploy-spring-boot-applications-into-aws-elastic-beanstalk-b2204d8fbd9c
+https://medium.com/devops-with-valentine/how-to-deploy-a-docker-container-to-aws-elasticbeanstalk-using-aws-cli-87ccef0d5189
+https://aws.amazon.com/getting-started/hands-on/amazon-rds-backup-restore-using-aws-backup/
+https://www.edureka.co/blog/amazon-cloudwatch-monitoring-tool/
+https://adamtheautomator.com/aws-inspector/
+https://medium.com/sipios/easily-create-and-deploy-a-spring-boot-api-using-aws-4dcdaeca531
