@@ -172,10 +172,10 @@ Open website using domain name, example: `http://ec2-54-80-196-162.compute-1.ama
 4. Wykorzystaj AWS Inspector w swojej aplikacji
 
 #### Użyteczne linki:
-https://aws.amazon.com/blogs/devops/deploying-a-spring-boot-application-on-aws-using-aws-elasticbeanstalk/
-https://aws.plainenglish.io/deploy-spring-boot-applications-into-aws-elastic-beanstalk-b2204d8fbd9c
-https://medium.com/devops-with-valentine/how-to-deploy-a-docker-container-to-aws-elasticbeanstalk-using-aws-cli-87ccef0d5189
-https://aws.amazon.com/getting-started/hands-on/amazon-rds-backup-restore-using-aws-backup/
-https://www.edureka.co/blog/amazon-cloudwatch-monitoring-tool/
-https://adamtheautomator.com/aws-inspector/
-https://medium.com/sipios/easily-create-and-deploy-a-spring-boot-api-using-aws-4dcdaeca531
+- https://aws.amazon.com/blogs/devops/deploying-a-spring-boot-application-on-aws-using-aws-elasticbeanstalk/
+- https://aws.plainenglish.io/deploy-spring-boot-applications-into-aws-elastic-beanstalk-b2204d8fbd9c
+- https://medium.com/devops-with-valentine/how-to-deploy-a-docker-container-to-aws-elasticbeanstalk-using-aws-cli-87ccef0d5189
+- https://aws.amazon.com/getting-started/hands-on/amazon-rds-backup-restore-using-aws-backup/
+- https://www.edureka.co/blog/amazon-cloudwatch-monitoring-tool/
+- https://adamtheautomator.com/aws-inspector/
+- https://medium.com/sipios/easily-create-and-deploy-a-spring-boot-api-using-aws-4dcdaeca531
