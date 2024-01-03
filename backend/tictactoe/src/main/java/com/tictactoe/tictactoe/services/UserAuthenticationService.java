@@ -38,7 +38,7 @@ public class UserAuthenticationService {
         var accessToken = authenticationApi.logInInCognito(request);
         User userDetails = userRepository
                 .findByUsername(request.username())
-                .orElseThrow(() -> new IllegalArgumentException("No user of name '" + request.username() + "' found in database."));
+                .orElse(userRepository.save(new User(request.username())));
         return new UserLoginResponse(userDetails.getId(), accessToken);
     }
 
