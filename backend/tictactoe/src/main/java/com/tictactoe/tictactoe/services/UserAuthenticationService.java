@@ -38,7 +38,10 @@ public class UserAuthenticationService {
         var accessToken = authenticationApi.logInInCognito(request);
         User userDetails = userRepository
                 .findByUsername(request.username())
-                .orElse(userRepository.save(new User(request.username())));
+                .orElseGet(() -> {
+                        userRepository.save(new User(request.username()));
+                        return userRepository.findByUsername(request.username()).orElseThrow();
+                });
         return new UserLoginResponse(userDetails.getId(), accessToken);
     }
 
