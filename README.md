@@ -1,5 +1,12 @@
 # TicTacToe
-## Project 1
+## Application
+Application allows users to create an account and play tic-tac-toe (3x3) with another logged in random user. 
+Homepage displays global users' ranking.
+
+### Gameplay
+![](images/tictactoe_game.gif)
+
+## Deployment - project 1
 ### Overall architecture
 ![architecture.png](images/architecture.drawio.png)
 
@@ -165,7 +172,7 @@ Open website using domain name, example: `http://ec2-54-80-196-162.compute-1.ama
 - [Deploy Spring boot application to AWS Cloud](https://www.youtube.com/watch?v=ua0cb2LjCW4)
 - [How to Easily Deploy a Spring Boot Application to AWS EC2](https://www.youtube.com/watch?v=_vOInY6SRVE)
 
-### Projekt 2 (10 pkt)
+### Deployment - projekt 2 (10 pkt)
 1. Uruchom stworzoną aplikację z użyciem Beanstalk
 2. Utwórz konfigurację dla Cloudwatch, a następnie zdefiniuj własny alarm
 3. Utwórz konfigurację dla CloudTrail oraz sprawdź historię eventów
