@@ -26,9 +26,12 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/tictactoe?allowPublicKeyRetrieval=true&autoReconnect=true&useSSL=false
       SPRING_DATASOURCE_USERNAME: mysql
       SPRING_DATASOURCE_PASSWORD: password
-      BASE_URL:
-      APP_API_SETTINGS_CROSS_ORIGIN_URLS:
-      BASE_WEBSOCKET:
+      BASE_URL: 
+      APP_API_SETTINGS_CROSS_ORIGIN_URLS: 
+      BASE_WEBSOCKET: 
+      AMAZON_COGNITO_ACCESS_KEY: 
+      AMAZON_COGNITO_SECRET_KEY: 
+      AMAZON_COGNITO_SESSION_TOKEN: /AadN//bVzrL3nBJ0mtC2m95kTmDfSX8LLIuVw4RMdJ3+FXfZ6/p8UFlcDqpb53MrjDzESG73QVqMFGtrYfuXAmZw/s6mEFWx7m4e3UE5qKl9AmfEn3sx7HusClFhhklmeSsdGQhQhHXDplsMUrUALR14NRxw8amKWAKN+SOFEf0TgDRqbVhGiXCGFENe0AvAvUbjIkqshLEl/fl8BPCKX/k93iLcYbqkApIx0JnP687vNmXDhZN8lppW9wkls0WYKKL476wGMi3SoVdpE7GXvQhrT8d+WRoL/806CoRe3XLdY0i4DZml/nofkACtTeoUgy/hTTQ=
 
     networks:
       - priv-network
@@ -47,9 +50,9 @@ services:
     hostname: frontend
     image: ksproska/tictactoe-aws-frontend
     environment:
-      BASE_URL:
-      APP_API_SETTINGS_CROSS_ORIGIN_URLS:
-      BASE_WEBSOCKET:
+      BASE_URL: 
+      APP_API_SETTINGS_CROSS_ORIGIN_URLS: 
+      BASE_WEBSOCKET: 
     networks:
       - priv-network
     ports:

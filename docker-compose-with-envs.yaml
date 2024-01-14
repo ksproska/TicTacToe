@@ -1,0 +1,27 @@
+version: "3.4"
+services:
+  backend:
+    container_name: backend
+    hostname: backend
+    image: ksproska/tictactoe-aws-backend
+    network_mode: "host"
+    environment:
+      BASE_URL: 
+      APP_API_SETTINGS_CROSS_ORIGIN_URLS: 
+      BASE_WEBSOCKET: 
+      SPRING_DATASOURCE_USERNAME: 
+      SPRING_DATASOURCE_PASSWORD: 
+      SPRING_DATASOURCE_URL: 
+      AMAZON_COGNITO_ACCESS_KEY: 
+      AMAZON_COGNITO_SECRET_KEY: 
+      AMAZON_COGNITO_SESSION_TOKEN: 
+
+  frontend:
+    container_name: frontend
+    hostname: frontend
+    image: ksproska/tictactoe-aws-frontend
+    network_mode: "host"
+    environment:
+      BASE_URL: 
+      APP_API_SETTINGS_CROSS_ORIGIN_URLS: 
+      BASE_WEBSOCKET: 
