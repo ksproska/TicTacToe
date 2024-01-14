@@ -140,6 +140,26 @@ BASE_WEBSOCKET=ws://ec2-54-80-196-162.compute-1.amazonaws.com:8080/websocket/
 To start backend and frontend on EC2 run `docker compose up -d`. \
 Open website using domain name, example: `http://ec2-54-80-196-162.compute-1.amazonaws.com`
 
+## Deployment - project 2
+For the second deployment approach cognito is reused for user authentication as well as backend and fronted applications (their docker images). \
+In this deployment however, all elements (fronted, backend and database) are hosted on Elastic Beanstalk by running [this docker-compose file](docker-compose-beanstalk.yaml)
+
+### Creating elastic beanstalk env
+For running docker-compose file platform is set for docker: \
+![platform_docker.png](images/platform_docker.png)
+
+And then [docker-compose yaml file](docker-compose-beanstalk.yaml) is uploaded: \
+![application_code.png](images/application_code.png)
+
+Created environment: \
+![elastic_beanstalk_env_details.png](images/elastic_beanstalk_env_details.png)
+
+And (created by elastic beanstalk env) EC2: \
+![beanstalk_ec2.png](images/beanstalk_ec2.png)
+
+Website can be requested by opening `Public IPv4 DNS` found in EC2 details (in above example `http://ec2-34-232-173-182.compute-1.amazonaws.com/`)
+or by opening `domain` found in Elastic Beanstalk details (in above example `http://tictactoe-ksproska.us-east-1.elasticbeanstalk.com`).
+
 ------------------------------------------------------------------------------------------------------------------------
 ## Projekty opisy założeń
 ### Projekt 1 (10 pkt)
@@ -172,7 +192,7 @@ Open website using domain name, example: `http://ec2-54-80-196-162.compute-1.ama
 - [Deploy Spring boot application to AWS Cloud](https://www.youtube.com/watch?v=ua0cb2LjCW4)
 - [How to Easily Deploy a Spring Boot Application to AWS EC2](https://www.youtube.com/watch?v=_vOInY6SRVE)
 
-### Deployment - projekt 2 (10 pkt)
+### Projekt 2 (10 pkt)
 1. Uruchom stworzoną aplikację z użyciem Beanstalk
 2. Utwórz konfigurację dla Cloudwatch, a następnie zdefiniuj własny alarm
 3. Utwórz konfigurację dla CloudTrail oraz sprawdź historię eventów
