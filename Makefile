@@ -5,6 +5,12 @@ echo "APP_API_SETTINGS_CROSS_ORIGIN_URLS=http://${1}" >> domain.env
 echo "BASE_WEBSOCKET=ws://${1}:8080/websocket" >> domain.env
 endef
 
+define replace-envs
+sed -i 's/BASE_URL: /BASE_URL: http:\/\/${1}:8080\//g' docker-compose-with-envs.yaml
+sed -i 's/APP_API_SETTINGS_CROSS_ORIGIN_URLS: /APP_API_SETTINGS_CROSS_ORIGIN_URLS: http:\/\/${1}\//g' docker-compose-with-envs.yaml
+sed -i 's/BASE_WEBSOCKET: /BASE_WEBSOCKET: ws:\/\/${1}:8080\/websocket/g' docker-compose-with-envs.yaml
+endef
+
 start-dev:
 	docker compose -f ./docker-compose-dev.yaml up -d --build
 
@@ -42,3 +48,7 @@ send-docker-compose-and-env-file-to-lab: #test-if-domain-exists
 	$(call create-env-file,$(domain_name))
 	scp -i ./secret/tictactoe-key-pair.pem ./*.env ec2-user@$(domain_name):/home/ec2-user/
 	scp -i ./secret/tictactoe-key-pair.pem ./docker-compose.yaml ec2-user@$(domain_name):/home/ec2-user/
+
+domain_name=tictactoe-ksproska-with-rds.us-east-1.elasticbeanstalk.com
+create-domain-env-for-elastic-beanstalk:
+	$(call replace-envs,$(domain_name))

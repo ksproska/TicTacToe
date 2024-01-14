@@ -141,14 +141,40 @@ To start backend and frontend on EC2 run `docker compose up -d`. \
 Open website using domain name, example: `http://ec2-54-80-196-162.compute-1.amazonaws.com`
 
 ## Deployment - project 2
-For the second deployment approach cognito is reused for user authentication as well as backend and fronted applications (their docker images). \
-In this deployment however, all elements (fronted, backend and database) are hosted on Elastic Beanstalk by running [this docker-compose file](docker-compose-beanstalk.yaml)
+For the second deployment approach cognito and RDS database are reused, as well as backend and fronted applications (their docker images). \
+In this deployment however, fronted and backend are hosted on Elastic Beanstalk by uploading [this docker-compose file](docker-compose-with-envs.yaml)
+
+Since Elastic Beanstalk allows upload of only one file (.yaml) it is necessary to list envs in configuration (instead loading them from *.env files).
+It is therefore necessary to update [docker-compose file](docker-compose-with-envs.yaml) with necessary envs;
+
+In order to set domain envs run (with correct domain name - it is set during Elastic Beanstalk creation):
+```
+make create-domain-env-for-elastic-beanstalk domain_name=tictactoe-ksproska-with-rds.us-east-1.elasticbeanstalk.com
+```
+
+The other envs can be acquired by following previous chapters:
+
+For
+```env
+SPRING_DATASOURCE_USERNAME: 
+SPRING_DATASOURCE_PASSWORD: 
+SPRING_DATASOURCE_URL: 
+```
+see Create `db.env`
+
+For
+```env
+AMAZON_COGNITO_ACCESS_KEY: 
+AMAZON_COGNITO_SECRET_KEY: 
+AMAZON_COGNITO_SESSION_TOKEN: 
+```
+see Create `aws-credentials.env`.
 
 ### Creating elastic beanstalk env
 For running docker-compose file platform is set for docker: \
 ![platform_docker.png](images/platform_docker.png)
 
-And then [docker-compose yaml file](docker-compose-beanstalk.yaml) is uploaded: \
+And then [docker-compose yaml file](docker-compose-with-envs.yaml) is uploaded: \
 ![application_code.png](images/application_code.png)
 
 Created environment: \
